@@ -32,6 +32,10 @@ public:
     {
         
     }
+
+    ~User()
+    {
+    }
 };
 
 int main()
