@@ -1,54 +1,16 @@
 #include <iostream>
+#include "User.h"
 
 using namespace std;
 
-class User
-{
-private:
-    int id;
-    string name;
-    string priviledges;
+int main()
+{   
+    User me(1, "Labib", "none");
+    me.Register();
+    me.LogIn();
 
-public:
-    User() : id(0), name("NULL"), priviledges("NULL")
-    {
-    }
+    cout<<"everything is properly working"<<endl;
 
-    User(const int &user_id, const string &s, const string &priv) : id(user_id), name(s), priviledges(priv)
-    {
-    }
-
-    void Register()
-    {
-
-    }
-
-    void LogIn()
-    {
-
-    }
-
-    void LogOut()
-    {
-        
-    }
-
-    ~User()
-    {
-    }
-};
-
-int main(){
-    char choice;
-    cout << "\n1: Login";
-    cout << "\n2: Sign-Up";
-    cout << "\n3: Forgot Password";
-    cout << "\n4: Exit";
-    cout << "\nEnter Your Choice :: ";
-    cin >> choice;
-
-    string name = "Mueej is gay";
-    string z = "gahinZay";
-    
-    //I wrote this code to test how to branch and pull merge etc
+    return 0;
 }
+
