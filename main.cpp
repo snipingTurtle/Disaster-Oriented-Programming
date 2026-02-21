@@ -48,6 +48,7 @@ int main(){
     cin >> choice;
 
     string name = "Mueej is gay";
+    string z = "gahinZay";
+    
     //I wrote this code to test how to branch and pull merge etc
-
 }
