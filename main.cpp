@@ -47,6 +47,7 @@ int main(){
     cout << "\nEnter Your Choice :: ";
     cin >> choice;
 
+    string name = "Mueej is gay";
     //I wrote this code to test how to branch and pull merge etc
 
 }
