@@ -38,6 +38,12 @@ public:
     }
 };
 
-int main()
-{
+int main(){
+    char choice;
+    cout << "\n1: Login";
+    cout << "\n2: Sign-Up";
+    cout << "\n3: Forgot Password";
+    cout << "\n4: Exit";
+    cout << "\nEnter Your Choice :: ";
+    cin >> choice;
 }
