@@ -3,4 +3,4 @@ main
 *.o
 *.exe
 *.out
-*.o
+*.txt
