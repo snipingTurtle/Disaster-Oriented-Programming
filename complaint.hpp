@@ -9,10 +9,17 @@ class Complaint {
 private:
     int complaintID;
     string complaintText;
+    int studentID;
+    string date;
 
 public:
     Complaint();
-    Complaint(int id, const string& text);
+    Complaint(int id, const string& text, int sID, const string& dateFiled);
+
+    int GetComplaintID() const;
+    string GetComplaintText() const;
+    int GetStudentID() const;
+    string GetDate() const;
 
     void SetComplaint(const string& text);
     void UpdateComplaint(const string& newText);

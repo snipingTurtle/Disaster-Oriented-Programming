@@ -3,6 +3,7 @@
 #include<sstream>
 
 #include "user.hpp"
+#include "complaint.hpp"
 
 using namespace std;
 
