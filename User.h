@@ -4,7 +4,8 @@
 #include <string>
 using namespace std;
 
-class User{
+class User
+{
 private:
     int id;
     string name;
@@ -15,13 +16,18 @@ public:
     User();
     User(const int &user_id, const string &s, const string &priv);
 
+    // getters
+    int getId() const;
+    string getName() const;
+    string getPriviledges() const;
+
     // member functions
     void Register();
     void LogIn();
     void LogOut();
 
     // destructor
-    ~User();
+    virtual ~User(); // making it virtual to ensure proper derived class cleanup
 };
 
 #endif

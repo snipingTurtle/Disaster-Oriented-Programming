@@ -1,16 +1,33 @@
 #include "User.h"
 
-// Default constructor
+// default constructor
 User::User() : id(0), name("NULL"), priviledges("NULL")
 {
 }
 
 // parameterized constructor
-User::User(const int &user_id, const string &s, const string &priv) : id(user_id), name(s), priviledges(priv)
+User::User(const int &user_id, const string &s, const string &priv)
+    : id(user_id), name(s), priviledges(priv)
 {
 }
 
-// member functions
+// getters
+int User::getId() const
+{
+    return id;
+}
+
+string User::getName() const
+{
+    return name;
+}
+
+string User::getPriviledges() const
+{
+    return priviledges;
+}
+
+// Member functions
 void User::Register()
 {
 }
