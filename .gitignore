@@ -3,4 +3,6 @@ main
 *.o
 *.exe
 *.out
-*.txt
+*commits_roadmap.txt
+*build
+build/
