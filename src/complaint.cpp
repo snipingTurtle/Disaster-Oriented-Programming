@@ -1,4 +1,5 @@
 #include "complaint.hpp"
+#include <iostream>
 
 using namespace std;
 
@@ -24,9 +25,21 @@ string Complaint::GetDate() const {
 }
 
 void Complaint::SetComplaint(const string& text) {
+    if (text.empty()) {
+        cout << "Error: Complaint text cannot be left empty!" << endl;
+        return;
+    }
+    complaintText = text;
+    cout << "Success: Complaint has been securely filed." << endl;
 }
 
 void Complaint::UpdateComplaint(const string& newText) {
+    if (newText.empty()) {
+        cout << "Error: Updated text cannot be empty!" << endl;
+        return;
+    }
+    complaintText = newText;
+    cout << "Success: Complaint details have been updated." << endl;
 }
 
 void Complaint::UpdateStatus(const string& newStatus) {

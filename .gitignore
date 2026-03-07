@@ -4,5 +4,4 @@ main
 *.exe
 *.out
 *commits_roadmap.txt
-*build
 build/
