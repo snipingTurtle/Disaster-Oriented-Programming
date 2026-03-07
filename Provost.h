@@ -12,7 +12,7 @@ private:
 public:
     Provost(int id, const string &name);
 
-    void updateComplaintStatus(int complaintId, const string &status) override;
+    void updateComplaintStatus(int complaintId, const string &category, const string &status) override;
     void viewResidents() const override;
     string role() const override;
 

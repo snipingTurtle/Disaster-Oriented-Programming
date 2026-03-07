@@ -16,10 +16,11 @@ Provost::Provost(int id,const string &name)
     provostCount++;
 }
 
-void Provost::updateComplaintStatus(int complaintId, const string &status)
+void Provost::updateComplaintStatus(int complaintId, const string &category, const string &status)
 {
-    cout<<"Provost updated complaint "<<complaintId << " to status: "<<status<< endl;
+    cout<<"Provost updated "<<category<<" complaint "<<complaintId<<" to status: "<<status<< endl;
 }
+
 
 void Provost::viewResidents() const // Not implemented yet
 {

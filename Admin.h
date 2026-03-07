@@ -37,7 +37,7 @@ public:
 
 
     // PURE VIRTUAL FUNCTIONS
-    virtual void updateComplaintStatus(int complaintId, const string &status) = 0;
+    virtual void updateComplaintStatus(int complaintId, const string &category, const string &status) = 0;
     virtual void viewResidents() const = 0;
     virtual string role() const = 0;
 

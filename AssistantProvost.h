@@ -16,7 +16,7 @@ public:
                      const string &name,
                      const string &responsibility);
 
-    void updateComplaintStatus(int complaintId,const string &status) override;
+    void updateComplaintStatus(int complaintId,const string &category, const string &status) override;
     void viewResidents() const override;
 
     // keeps this class abstract
