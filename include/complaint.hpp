@@ -11,6 +11,7 @@ private:
     string complaintText;
     int studentID;
     string date;
+    string status;
 
 public:
     Complaint();
@@ -20,6 +21,7 @@ public:
     string GetComplaintText() const;
     int GetStudentID() const;
     string GetDate() const;
+    string GetStatus() const;
 
     void SetComplaint(const string& text);
     void UpdateComplaint(const string& newText);

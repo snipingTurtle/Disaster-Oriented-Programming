@@ -3,10 +3,10 @@
 
 using namespace std;
 
-Complaint::Complaint() : complaintID(0), complaintText(""), studentID(0), date("") {}
+Complaint::Complaint() : complaintID(0), complaintText(""), studentID(0), date(""), status("Pending") {}
 
 Complaint::Complaint(int id, const string& text, int sID, const string& dateFiled) 
-    : complaintID(id), complaintText(text), studentID(sID), date(dateFiled) {}
+    : complaintID(id), complaintText(text), studentID(sID), date(dateFiled), status("Pending") {}
 
 int Complaint::GetComplaintID() const {
     return complaintID;
@@ -22,6 +22,10 @@ int Complaint::GetStudentID() const {
 
 string Complaint::GetDate() const {
     return date;
+}
+
+string Complaint::GetStatus() const {
+    return status;
 }
 
 void Complaint::SetComplaint(const string& text) {
@@ -43,6 +47,12 @@ void Complaint::UpdateComplaint(const string& newText) {
 }
 
 void Complaint::UpdateStatus(const string& newStatus) {
+    if (newStatus.empty()) {
+        cout << "Error: Status cannot be empty!" << endl;
+        return;
+    }
+    status = newStatus;
+    cout << "Success: Complaint status updated to " << status << "." << endl;
 }
 
 Complaint::~Complaint() {}
