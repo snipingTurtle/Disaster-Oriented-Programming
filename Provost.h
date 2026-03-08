@@ -14,6 +14,7 @@ public:
     Provost(int id, const string &name, int appointmentYear);
 
     int getAppointmentYear() const;
+    void assignShift(AssistantToProvost &assistant, const string &shift);
 
     void updateComplaintStatus(int complaintId, const string &category, const string &status) override;
     void viewResidents() const override;
