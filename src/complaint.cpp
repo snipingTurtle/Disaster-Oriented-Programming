@@ -55,4 +55,17 @@ void Complaint::UpdateStatus(const string& newStatus) {
     cout << "Success: Complaint status updated to " << status << "." << endl;
 }
 
+void Complaint::DisplayComplaint() const {
+    cout << "\n============================================\n";
+    cout << "              COMPLAINT REPORT              \n";
+    cout << "============================================\n";
+    cout << "  Complaint ID : " << complaintID << "\n";
+    cout << "  Student ID   : " << studentID << "\n";
+    cout << "  Date Filed   : " << date << "\n";
+    cout << "  Status       : " << status << "\n";
+    cout << "--------------------------------------------\n";
+    cout << "  Description  :\n  " << complaintText << "\n";
+    cout << "============================================\n";
+}
+
 Complaint::~Complaint() {}

@@ -26,6 +26,7 @@ public:
     void SetComplaint(const string& text);
     void UpdateComplaint(const string& newText);
     void UpdateStatus(const string& newStatus);
+    void DisplayComplaint() const;
     
     ~Complaint();
 };
