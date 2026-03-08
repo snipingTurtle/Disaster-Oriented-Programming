@@ -12,6 +12,8 @@ protected:
     string post;
     string phoneNumber;
     int accessLevel;
+    string email;
+    string officeRoom;
 
 public:
     // CONSTRUCTOR
@@ -26,11 +28,16 @@ public:
     string getPost() const;
     string getPhoneNumber() const;
     int getAccessLevel() const;
+    string getEmail() const;
+    string getOfficeRoom() const;
+    
 
 
     // SETTER FUNCTIONS
     void setPhoneNumber(const string &phone);
     void setAccessLevel(int level);
+    void setEmail(const string &email);
+    void setOfficeRoom(const string &room);
 
 
     virtual void postNotice(const string &text);

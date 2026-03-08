@@ -12,6 +12,21 @@ public:
     {
         return "Assistant Provost (Food)";
     }
+
+    void inspectFoodQuality() const
+    {
+        cout<<"Assistant Provost (Food) is inspecting food quality."<<endl;
+    }
+
+    void approveMealChange(const string &mealName)
+    {
+        cout<<"Assistant Provost (Food) approved meal change: "<< mealName<<endl;
+    }
+
+    void reviewCafeteriaIssue(int complaintId) const
+    {
+        cout<<"Assistant Provost (Food) is reviewing cafeteria complaint ID "<<complaintId<< endl;
+    }
 };
 
 

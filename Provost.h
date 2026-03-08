@@ -9,8 +9,11 @@ using namespace std;
 class Provost : public Admin{
 private:
     static int provostCount;
+    const int appointmentYear;
 public:
-    Provost(int id, const string &name);
+    Provost(int id, const string &name, int appointmentYear);
+
+    int getAppointmentYear() const;
 
     void updateComplaintStatus(int complaintId, const string &category, const string &status) override;
     void viewResidents() const override;

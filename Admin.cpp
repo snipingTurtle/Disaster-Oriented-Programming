@@ -23,6 +23,16 @@ int Admin::getAccessLevel() const
     return accessLevel;
 }
 
+string Admin::getEmail() const
+{
+    return email;
+}
+
+string Admin::getOfficeRoom() const
+{
+    return officeRoom;
+}
+
 
 // setter functions
 void Admin::setPhoneNumber(const string &phone)
@@ -33,6 +43,16 @@ void Admin::setPhoneNumber(const string &phone)
 void Admin::setAccessLevel(int level)
 {
     accessLevel = level;
+}
+
+void Admin::setEmail(const string &email)
+{
+    this->email = email;
+}
+
+void Admin::setOfficeRoom(const string &room)
+{
+    officeRoom = room;
 }
 
 
