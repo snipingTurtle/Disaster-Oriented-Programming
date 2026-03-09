@@ -1,7 +1,7 @@
-#ifndef ASSISTANT_TO_PROVOST_CAFETERIA_H
-#define ASSISTANT_TO_PROVOST_CAFETERIA_H
+#ifndef ASSISTANT_TO_PROVOST_CAFETERIA_HPP
+#define ASSISTANT_TO_PROVOST_CAFETERIA_HPP
 
-#include "AssistantToProvost.h"
+#include "AssistantToProvost.hpp"
 #include <iostream>
 
 using namespace std;

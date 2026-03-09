@@ -1,6 +1,6 @@
-#ifndef ASSISTANT_PROVOST_ICT_H
-#define ASSISTANT_PROVOST_ICT_H
-#include "AssistantProvost.h"
+#ifndef ASSISTANT_PROVOST_ICT_HPP
+#define ASSISTANT_PROVOST_ICT_HPP
+#include "AssistantProvost.hpp"
 
 class AssistantProvostICT : public AssistantProvost
 {

@@ -1,6 +1,6 @@
-#ifndef ASSISTANT_PROVOST_HALL_H
-#define ASSISTANT_PROVOST_HALL_H
-#include "AssistantProvost.h"
+#ifndef ASSISTANT_PROVOST_HALL_HPP
+#define ASSISTANT_PROVOST_HALL_HPP
+#include "AssistantProvost.hpp"
 
 class AssistantProvostHall : public AssistantProvost
 {

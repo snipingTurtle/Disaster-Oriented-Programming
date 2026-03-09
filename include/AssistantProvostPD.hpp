@@ -1,6 +1,6 @@
-#ifndef ASSISTANT_PROVOST_PD_H
-#define ASSISTANT_PROVOST_PD_H
-#include "AssistantProvost.h"
+#ifndef ASSISTANT_PROVOST_PD_HPP
+#define ASSISTANT_PROVOST_PD_HPP
+#include "AssistantProvost.hpp"
 
 class AssistantProvostPD : public AssistantProvost
 {
