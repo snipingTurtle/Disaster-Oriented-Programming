@@ -45,6 +45,24 @@ vector<Complaint> DatabaseHandler::LoadComplaints() {
     return complaints;
 }
 
+void DatabaseHandler::UpdateComplaintStatus(int id, const string& newStatus) {
+    vector<Complaint> complaints = LoadComplaints();
+    ofstream outFile("complaints.txt"); // Overwrite
+    if (outFile.is_open()) {
+        for (auto& c : complaints) {
+            if (c.GetComplaintID() == id) {
+                c.SetStatus(newStatus);
+            }
+            outFile << c.GetComplaintID() << ","
+                    << c.GetStudentID() << ","
+                    << c.GetDate() << ","
+                    << c.GetStatus() << ","
+                    << c.GetComplaintText() << endl;
+        }
+        outFile.close();
+    }
+}
+
 void DatabaseHandler::SaveNotice(const NoticeBoard& notice) {
     ofstream outFile("notices.txt", ios::app);
     if (outFile.is_open()) {
