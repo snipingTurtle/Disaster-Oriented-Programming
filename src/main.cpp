@@ -17,6 +17,34 @@ class Authorization{
             string file_name = "data.csv";
             ifstream f(file_name);
 
+            string line;
+            int flag = 0;
+
+            while(getline(f, line)) {
+                stringstream ss(line);
+                string n, e, p;
+
+                getline(ss, n, ',');
+                getline(ss, e, ',');
+                getline(ss, p, ',');
+                if(n == in_name || e == in_email) {
+                    flag = 1;
+                    break;
+                }
+            }
+            if(flag == 1) {
+                cout << "Name or Email already exists\n";
+            }
+            else {
+                ofstream f(file_name, ios::app);
+                f << in_name << "," << in_email << "," << pass << "\n";
+                f.close();
+            }
+        }
+        void log_in(string name_or_email, string pass){
+            string file_name = "data.csv";
+            ifstream f(file_name);
+
             // string in_name, in_email;
             // cin >> in_name >> in_email;
 
@@ -30,24 +58,19 @@ class Authorization{
                 getline(ss, n, ',');
                 getline(ss, e, ',');
                 getline(ss, p, ',');
-
-                if(n == in_name || e == in_email) {
-                    flag = 1;
+                if(n == name_or_email || n == name_or_email) {
+                    if(password != pass){
+                        flag = 1;
+                    }
                     break;
                 }
             }
-
             if(flag == 1) {
-                cout << "Name or Email already exists\n";
+                cout << "Wrong Credentials\n";
             }
             else {
-                ofstream f(file_name, ios::app);
-
-                f << in_name << "," << in_email << "," << pass << "\n";
-
-                f.close();
+                cout << "Successful Login\n";
             }
-
         }
 };
 
@@ -65,6 +88,13 @@ int main(){
         cin >> choice;
         if(choice == 'q' or choice == 'Q'){
             break;
+        }
+        else if(choice == '1'){
+            string a, b;
+            
+            cout << "Enter your User Name or Password: "; cin >> a;
+            cout << "Enter your password: "; cin >> b;
+            auth.log_in(a,b);
         }
         else if(choice == '2'){
             string a, b, c;
