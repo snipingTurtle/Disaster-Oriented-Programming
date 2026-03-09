@@ -120,6 +120,8 @@ int main(){
             }
             else if(r == "provost"){
                 cout << "Calling provost UI\n";
+                Provost p;
+                p.run();
             }
             else if(r=="manager"){
                 cout << "Calling manager UI\n";

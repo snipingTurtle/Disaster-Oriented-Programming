@@ -19,6 +19,7 @@ protected:
     string officeRoom;
 
 public:
+    Admin();
     Admin(int id, const string& name, const string& privileges,const string& post, int accessLevel);
 
     string getPost() const;

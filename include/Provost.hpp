@@ -11,8 +11,9 @@ class Complaint;
 class Provost : public Admin{
 private:
     static int provostCount;
-    const int appointmentYear;
+    int appointmentYear;
 public:
+    Provost();
     Provost(int id, const string &name, int appointmentYear);
 
     int getAppointmentYear() const;
@@ -21,6 +22,7 @@ public:
     void updateComplaintStatus(Complaint &complaint,const string &status) override;
     void viewResidents() const override;
     string role() const override;
+    void run();
 
     ~Provost();
 };

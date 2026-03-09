@@ -4,6 +4,9 @@
 
 using namespace std;
 
+
+Admin::Admin(){}
+
 Admin::Admin(int id, const string& name, const string& privileges, const string& post, int accessLevel)
     : User(id, name, privileges),
       post(post),

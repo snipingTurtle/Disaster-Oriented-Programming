@@ -8,6 +8,7 @@
 using namespace std;
 
 int Provost::provostCount = 0;
+Provost::Provost(){}
 
 Provost::Provost(int id,const string &name, int appointmentYear)
     : Admin(id, name, "Admin", "Provost",10), appointmentYear(appointmentYear)
@@ -54,4 +55,22 @@ string Provost::role() const
 Provost::~Provost()
 {
     provostCount--;
+}
+
+
+void Provost::run(){
+    while(1){
+        cout << "\nProvost Panel\n";
+        cout << "1: View Complaints\n";
+        cout << "2: Approve Users\n";
+        cout << "3: Logout\n";
+
+        int c;
+        cin >> c;
+
+        if(c == 3) {
+            cout << "Logging out from Provost Level\n";
+            break;
+        }
+    }
 }
