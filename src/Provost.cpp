@@ -11,7 +11,7 @@ int Provost::provostCount = 0;
 Provost::Provost(){}
 
 Provost::Provost(int id,const string &name, int appointmentYear)
-    : Admin(id, name, "Admin", "Provost",10), appointmentYear(appointmentYear)
+    : Admin(id, name, "Admin", "Provost", 10), appointmentYear(appointmentYear)
 {
     if(provostCount >= 1)
     {
@@ -56,7 +56,6 @@ Provost::~Provost()
 {
     provostCount--;
 }
-
 
 void Provost::run(){
     while(1){

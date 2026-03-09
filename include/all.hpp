@@ -2,6 +2,7 @@
 #define ALL_HPP
 
 #include "Admin.hpp"
+#include "Authorization.hpp"
 #include "AssistantProvost.hpp"
 #include "AssistantProvostFood.hpp"
 #include "AssistantProvostHall.hpp"

@@ -8,6 +8,7 @@ include_directories(include)
 
 add_executable(HMS 
     src/main.cpp 
+    src/Authorization.cpp
     src/user.cpp 
     src/complaint.cpp
     src/notice_board.cpp
