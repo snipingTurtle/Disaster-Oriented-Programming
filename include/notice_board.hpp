@@ -30,6 +30,8 @@ public:
     void SetAuthor(const string& auth);
     void SetTimestamp(const string& ts);
 
+    void ViewNotice() const;
+    
     ~NoticeBoard();
 };
 

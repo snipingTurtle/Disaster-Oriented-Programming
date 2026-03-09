@@ -16,4 +16,16 @@ void NoticeBoard::SetAnnouncement(const string& a) { announcement = a; }
 void NoticeBoard::SetAuthor(const string& auth) { author = auth; }
 void NoticeBoard::SetTimestamp(const string& ts) { timestamp = ts; }
 
+void NoticeBoard::ViewNotice() const {
+    cout << "\n--------------------------------------------\n";
+    cout << "              NOTICE BOARD                  \n";
+    cout << "--------------------------------------------\n";
+    cout << "  Title      : " << title << "\n";
+    cout << "  Author     : " << author << "\n";
+    cout << "  Date       : " << timestamp << "\n";
+    cout << "--------------------------------------------\n";
+    cout << "  Announcement:\n  " << announcement << "\n";
+    cout << "--------------------------------------------\n";
+}
+
 NoticeBoard::~NoticeBoard() {}
