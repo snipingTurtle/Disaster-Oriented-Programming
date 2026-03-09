@@ -32,7 +32,7 @@ void NoticeBoard::ViewNotice() const {
     cout << "  Author     : " << author << "\n";
     cout << "  Date       : " << timestamp << "\n";
     cout << "--------------------------------------------\n";
-    cout << "  Announcement:\n  " << announcement << "\n";
+    cout << "  " << announcement << "\n";
     cout << "--------------------------------------------\n";
 }
 
