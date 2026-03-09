@@ -1,4 +1,5 @@
 #include "complaint.hpp"
+#include "database_handler.hpp"
 #include <iostream>
 
 using namespace std;
@@ -34,6 +35,7 @@ void Complaint::SetComplaint(const string& text) {
         return;
     }
     complaintText = text;
+    DatabaseHandler::SaveComplaint(*this);
     cout << "Success: Complaint has been securely filed." << endl;
 }
 
