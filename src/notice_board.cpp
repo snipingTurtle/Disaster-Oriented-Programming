@@ -1,4 +1,8 @@
 #include "notice_board.hpp"
+#include "database_handler.hpp"
+#include <iostream>
+
+using namespace std;
 
 NoticeBoard::NoticeBoard() : noticeID(0), title(""), announcement(""), author(""), timestamp("") {}
 
@@ -12,7 +16,10 @@ string NoticeBoard::GetAuthor() const { return author; }
 string NoticeBoard::GetTimestamp() const { return timestamp; }
 
 void NoticeBoard::SetTitle(const string& t) { title = t; }
-void NoticeBoard::SetAnnouncement(const string& a) { announcement = a; }
+void NoticeBoard::SetAnnouncement(const string& a) { 
+    announcement = a; 
+    DatabaseHandler::SaveNotice(*this);
+}
 void NoticeBoard::SetAuthor(const string& auth) { author = auth; }
 void NoticeBoard::SetTimestamp(const string& ts) { timestamp = ts; }
 

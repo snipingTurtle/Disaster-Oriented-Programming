@@ -46,5 +46,17 @@ vector<Complaint> DatabaseHandler::LoadComplaints() {
     return complaints;
 }
 
-void DatabaseHandler::SaveNotice(const NoticeBoard& notice) {}
+void DatabaseHandler::SaveNotice(const NoticeBoard& notice) {
+    ofstream outFile("notices.txt", ios::app);
+    if (outFile.is_open()) {
+        outFile << notice.GetNoticeID() << ","
+                << notice.GetAuthor() << ","
+                << notice.GetTimestamp() << ","
+                << notice.GetTitle() << ","
+                << notice.GetAnnouncement() << endl;
+        outFile.close();
+    } else {
+        cerr << "Error: Could not open notices.txt for writing." << endl;
+    }
+}
 vector<NoticeBoard> DatabaseHandler::LoadNotices() { return {}; }
