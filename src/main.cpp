@@ -2,8 +2,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "user.hpp"
-#include "complaint.hpp"
+#include "all.hpp"
 
 using namespace std;
 
@@ -139,7 +138,5 @@ int main(){
             cout << "Invalid input\n";
             continue;
         }
-    }
-    
-    
+    }    
 }
