@@ -48,6 +48,10 @@ void Complaint::UpdateComplaint(const string& newText) {
     cout << "Success: Complaint details have been updated." << endl;
 }
 
+void Complaint::SetStatus(const string& s) {
+    status = s;
+}
+
 void Complaint::UpdateStatus(const string& newStatus) {
     if (newStatus.empty()) {
         cout << "Error: Status cannot be empty!" << endl;

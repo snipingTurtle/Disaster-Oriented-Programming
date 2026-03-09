@@ -20,7 +20,31 @@ void DatabaseHandler::SaveComplaint(const Complaint& complaint) {
     }
 }
 
-vector<Complaint> DatabaseHandler::LoadComplaints() { return {}; }
+vector<Complaint> DatabaseHandler::LoadComplaints() {
+    vector<Complaint> complaints;
+    ifstream inFile("complaints.txt");
+    string line;
+    
+    if (inFile.is_open()) {
+        while (getline(inFile, line)) {
+            stringstream ss(line);
+            string id_str, sID_str, date, status, text;
+            
+            if (getline(ss, id_str, ',') &&
+                getline(ss, sID_str, ',') &&
+                getline(ss, date, ',') &&
+                getline(ss, status, ',') &&
+                getline(ss, text)) {
+                
+                Complaint c(stoi(id_str), text, stoi(sID_str), date);
+                c.SetStatus(status);
+                complaints.push_back(c);
+            }
+        }
+        inFile.close();
+    }
+    return complaints;
+}
 
 void DatabaseHandler::SaveNotice(const NoticeBoard& notice) {}
 vector<NoticeBoard> DatabaseHandler::LoadNotices() { return {}; }
