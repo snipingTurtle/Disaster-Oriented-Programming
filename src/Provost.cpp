@@ -1,7 +1,7 @@
-#include "Provost.h"
+#include "Provost.hpp"
 #include <iostream>
 #include <stdexcept>
-#include "AssistantToProvost.h"
+#include "AssistantToProvost.hpp"
 #include "complaint.hpp"
 #include "database_handler.hpp"
 

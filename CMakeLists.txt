@@ -12,4 +12,8 @@ add_executable(HMS
     src/complaint.cpp
     src/notice_board.cpp
     src/database_handler.cpp
+    src/Admin.cpp
+    src/AssistantProvost.cpp
+    src/AssistantToProvost.cpp
+    src/Provost.cpp
 )
