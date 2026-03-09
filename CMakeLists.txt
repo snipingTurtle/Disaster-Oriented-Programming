@@ -11,4 +11,5 @@ add_executable(HMS
     src/user.cpp 
     src/complaint.cpp
     src/notice_board.cpp
+    src/database_handler.cpp
 )
