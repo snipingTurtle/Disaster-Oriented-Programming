@@ -3,7 +3,7 @@
 
 using namespace std;
 
-#include "Admin.h"
+#include "Admin.hpp"
 
 class AssistantToProvost;
 class Complaint;
