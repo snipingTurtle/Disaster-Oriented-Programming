@@ -41,6 +41,9 @@ public:
 
 
     virtual void postNotice(const string &text);
+    virtual void updateNotice(int noticeId, const string &newText);
+    virtual void viewProfile() const;
+    
 
 
     // PURE VIRTUAL FUNCTIONS

@@ -5,6 +5,7 @@ using namespace std;
 
 #include "Admin.h"
 
+class AssistantToProvost;
 
 class Provost : public Admin{
 private:
