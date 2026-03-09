@@ -1,5 +1,11 @@
 #include "AssistantProvost.h"
 #include<iostream>
+#include <sstream>
+#include <vector>
+#include<fstream>
+#include<stdexcept>
+#include "complaint.hpp"
+#include "database_handler.hpp"
 
 using namespace std;
 
@@ -9,14 +15,20 @@ AssistantProvost::AssistantProvost(int id,
     : Admin(id, name,"Admin", "Assistant Provost",7),
       responsibility(responsibility) {}
 
-void AssistantProvost::updateComplaintStatus(int complaintId, const string &category, const string &status)
+string AssistantProvost::getResponsibility() const
 {
-    if(category != responsibility)
-    {
-        throw runtime_error("Unauthorized: This Assistant Provost cannot handle " +category+" complaints.");
-    }
+    return responsibility;
+}
 
-    cout<<"Assistant Provost ("<<responsibility<< ") updated complaint "<< complaintId<<" to "<<status << endl;
+void AssistantProvost::updateComplaintStatus(Complaint &complaint,const string &status)
+{
+    complaint.UpdateStatus(status);
+    DatabaseHandler::UpdateComplaintStatus(complaint.GetComplaintID(), status);
+
+    cout << "Assistant Provost (" << responsibility
+         << ") updated complaint ID "
+         << complaint.GetComplaintID()
+         << " to status: " << status << endl;
 }
 
 void AssistantProvost::viewResidents() const  // Not implemented

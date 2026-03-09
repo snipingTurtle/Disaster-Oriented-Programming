@@ -6,6 +6,9 @@
 #include <iostream>
 using namespace std;
 
+class Complaint;
+class NoticeBoard;
+
 class Admin : public User
 {
 protected:
@@ -40,14 +43,17 @@ public:
     void setOfficeRoom(const string &room);
 
 
-    virtual void postNotice(const string &text);
-    virtual void updateNotice(int noticeId, const string &newText);
+    virtual void postNotice(NoticeBoard &notice,
+                            const string &title,
+                            const string &announcement,
+                            const string &timestamp);
+   
     virtual void viewProfile() const;
-    
+
 
 
     // PURE VIRTUAL FUNCTIONS
-    virtual void updateComplaintStatus(int complaintId, const string &category, const string &status) = 0;
+    virtual void updateComplaintStatus(Complaint &complaint, const string &status) = 0;
     virtual void viewResidents() const = 0;
     virtual string role() const = 0;
 

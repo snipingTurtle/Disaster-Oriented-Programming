@@ -6,6 +6,7 @@ using namespace std;
 #include "Admin.h"
 
 class AssistantToProvost;
+class Complaint;
 
 class Provost : public Admin{
 private:
@@ -17,7 +18,7 @@ public:
     int getAppointmentYear() const;
     void assignShift(AssistantToProvost &assistant, const string &shift);
 
-    void updateComplaintStatus(int complaintId, const string &category, const string &status) override;
+    void updateComplaintStatus(Complaint &complaint,const string &status) override;
     void viewResidents() const override;
     string role() const override;
 

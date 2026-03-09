@@ -2,6 +2,8 @@
 #include <iostream>
 #include <stdexcept>
 #include "AssistantToProvost.h"
+#include "complaint.hpp"
+#include "database_handler.hpp"
 
 using namespace std;
 
@@ -29,9 +31,13 @@ void Provost::assignShift(AssistantToProvost &assistant, const string &shift)
     cout<<"Provost assigned shift '"<<shift<<"' to "<< assistant.role() << endl;
 }
 
-void Provost::updateComplaintStatus(int complaintId, const string &category, const string &status)
+
+void Provost::updateComplaintStatus(Complaint &complaint, const string &status)
 {
-    cout<<"Provost updated "<<category<<" complaint "<<complaintId<<" to status: "<<status<< endl;
+    complaint.UpdateStatus(status);
+    DatabaseHandler::UpdateComplaintStatus(complaint.GetComplaintID(), status);
+
+    cout << "Provost updated complaint ID "<< complaint.GetComplaintID()<< " to status: " << status << endl;
 }
 
 

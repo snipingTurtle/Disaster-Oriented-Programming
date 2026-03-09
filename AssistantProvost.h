@@ -6,17 +6,18 @@
 
 using namespace std;
 
+class Complaint;
+
 
 class AssistantProvost : public Admin{
 protected:
     string responsibility;
 
 public:
-    AssistantProvost(int id,
-                     const string &name,
-                     const string &responsibility);
+    AssistantProvost(int id, const string &name, const string &responsibility);
 
-    void updateComplaintStatus(int complaintId,const string &category, const string &status) override;
+    string getResponsibility() const;
+    void updateComplaintStatus(Complaint &complaint, const string &status) override;
     void viewResidents() const override;
 
     // keeps this class abstract

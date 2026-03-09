@@ -7,6 +7,7 @@
 using namespace std;
 
 class Provost;
+class Complaint;
 
 class AssistantToProvost : public Admin
 {
@@ -28,10 +29,7 @@ public:
     string getResponsibility() const;
     string getShift() const;
 
-    void updateComplaintStatus(int complaintId,
-                               const string &category,
-                               const string &status) override;
-
+    void updateComplaintStatus(Complaint &complaint, const string &status) override;
     void viewResidents() const override;
 
     virtual string role() const = 0;

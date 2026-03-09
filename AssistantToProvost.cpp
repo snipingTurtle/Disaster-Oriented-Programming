@@ -1,9 +1,15 @@
 #include <iostream>
 #include <stdexcept>
 #include "AssistantToProvost.h"
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include "complaint.hpp"
+#include "database_handler.hpp"
 
 
 using namespace std;
+
 
 AssistantToProvost::AssistantToProvost(int id,
                                        const string &name,
@@ -28,21 +34,23 @@ void AssistantToProvost::setShift(const string &shift)
     this->shift = shift;
 }
 
-void AssistantToProvost::updateComplaintStatus(int complaintId,
-                                               const string &category,
+void AssistantToProvost::updateComplaintStatus(Complaint &complaint,
                                                const string &status)
 {
-    if(category != responsibility)
-    {
-        throw runtime_error("Unauthorized: This Assistant To Provost cannot handle " + category + " complaints.");
-    }
+    complaint.UpdateStatus(status);
+    DatabaseHandler::UpdateComplaintStatus(complaint.GetComplaintID(), status);
 
-    cout<< "Assistant To Provost (" << responsibility<< ") updated complaint " << complaintId<<" to "<< status << endl;
+    cout << "Assistant To Provost (" << responsibility
+         << ") updated complaint ID "
+         << complaint.GetComplaintID()
+         << " to status: " << status << endl;
 }
 
 void AssistantToProvost::viewResidents() const
 {
-    cout<<"Assistant To Provost responsible for "<< responsibility<< " is viewing relevant residents." << endl;
+    cout << "Assistant To Provost responsible for "
+         << responsibility
+         << " is viewing relevant residents." << endl;
 }
 
-AssistantToProvost::~AssistantToProvost(){}
+AssistantToProvost::~AssistantToProvost() {}
