@@ -5,7 +5,6 @@
 
 using namespace std;
 
-// This will be implemented in subsequent commits as per the roadmap
 void DatabaseHandler::SaveComplaint(const Complaint& complaint) {
     ofstream outFile("complaints.txt", ios::app);
     if (outFile.is_open()) {
@@ -59,4 +58,27 @@ void DatabaseHandler::SaveNotice(const NoticeBoard& notice) {
         cerr << "Error: Could not open notices.txt for writing." << endl;
     }
 }
-vector<NoticeBoard> DatabaseHandler::LoadNotices() { return {}; }
+vector<NoticeBoard> DatabaseHandler::LoadNotices() {
+    vector<NoticeBoard> notices;
+    ifstream inFile("notices.txt");
+    string line;
+
+    if (inFile.is_open()) {
+        while (getline(inFile, line)) {
+            stringstream ss(line);
+            string id_str, author, ts, title, announcement;
+
+            if (getline(ss, id_str, ',') &&
+                getline(ss, author, ',') &&
+                getline(ss, ts, ',') &&
+                getline(ss, title, ',') &&
+                getline(ss, announcement)) {
+                
+                NoticeBoard n(stoi(id_str), title, announcement, author, ts);
+                notices.push_back(n);
+            }
+        }
+        inFile.close();
+    }
+    return notices;
+}
