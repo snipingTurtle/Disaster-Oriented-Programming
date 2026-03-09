@@ -19,6 +19,7 @@ void NoticeBoard::SetTitle(const string& t) { title = t; }
 void NoticeBoard::SetAnnouncement(const string& a) { 
     announcement = a; 
     DatabaseHandler::SaveNotice(*this);
+    cout << "Success: Announcement has been posted to the NoticeBoard." << endl;
 }
 void NoticeBoard::SetAuthor(const string& auth) { author = auth; }
 void NoticeBoard::SetTimestamp(const string& ts) { timestamp = ts; }
