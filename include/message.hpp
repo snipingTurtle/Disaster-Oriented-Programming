@@ -14,6 +14,7 @@ private:
     int reciever_id;
     string content;
     chrono::system_clock::time_point timestamp;
+    bool read;
 
 public:
     Message();
@@ -24,7 +25,7 @@ public:
     void setReciever(const int &reciever);
     void setContent(const string &s);
 
-    virtual void setMessage() = 0;
+    virtual void setMessage(const string &s, const int &reciever) = 0;
 
     int getSender() const;
     int getReciever() const;
