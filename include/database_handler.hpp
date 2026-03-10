@@ -5,6 +5,7 @@
 #include <string>
 #include "complaint.hpp"
 #include "notice_board.hpp"
+#include "message.hpp"
 
 class DatabaseHandler {
 public:
@@ -16,6 +17,11 @@ public:
     // NoticeBoard Database Operations
     static void SaveNotice(const NoticeBoard& notice);
     static vector<NoticeBoard> LoadNotices();
+
+    // Message Database Operations
+    static void SaveMessage(const Message &message);
+    static vector<Message> LoadMessages();
+    static Message GetMessage(const int &message_id);
 };
 
 #endif

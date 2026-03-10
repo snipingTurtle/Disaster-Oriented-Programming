@@ -2,6 +2,7 @@
 #define MESSAGE_H
 
 #include <iostream>
+#include<chrono>
 
 using namespace std;
 
@@ -12,15 +13,25 @@ private:
     int sender_id;
     int reciever_id;
     string content;
-    string timestamp;
+    chrono::system_clock::time_point timestamp;
 
 public:
     Message();
-    Message(const int &sender, const int &reciever, const string &s, const string &time);
+    Message(const int &sender, const int &reciever, const string &s);
 
-    void sendMessage(const int &sender, const int &reciever, const string &s, const string &time);
-    void storeMessage();
-    void getMessage();
+    // Setter Functions
+    void setSender(const int &sender);
+    void setReciever(const int &reciever);
+    void setContent(const string &s);
+
+    virtual void setMessage() = 0;
+
+    int getSender() const;
+    int getReciever() const;
+    int getContent() const;
+
+    void DeleteMessage();
+    void SaveMessage();
 
     ~Message();
 };
