@@ -15,7 +15,7 @@ private:
     int reciever_id;
     string content;
     chrono::system_clock::time_point timestamp;
-    bool read;
+    bool unread;
 
 public:
     Message();
@@ -28,7 +28,12 @@ public:
 
     int getSender() const;
     int getReciever() const;
-    int getContent() const;
+    string getContent() const;
+    int getMessageID() const;
+    chrono::system_clock::time_point getTime() const;
+    bool getUnread() const;
+
+
 
     void DeleteMessage();
     void SaveMessage();
