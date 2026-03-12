@@ -9,8 +9,7 @@ Message::Message() : message_id(idGen++), sender_id(0), reciever_id(0), content(
 {
 }
 
-Message::Message(const int &sender, const int &reciever, const string &s) : 
-    message_id(idGen++), sender_id(sender), reciever_id(reciever), timestamp(chrono::system_clock::now()), unread(false)
+Message::Message(const int &sender, const int &reciever, const string &s) : message_id(idGen++), sender_id(sender), reciever_id(reciever), timestamp(chrono::system_clock::now()), unread(false)
 {
     setContent(s);
 }
@@ -67,15 +66,20 @@ bool Message::getUnread() const
 void Message::SaveMessage()
 {
     ofstream outFile("messages.csv", ios::app);
-    if (outFile.is_open()) {
+    if (outFile.is_open())
+    {
         outFile << getMessageID() << ","
                 << getSender() << ","
                 << getReciever() << ","
                 << getContent() << ","
                 << getTime() << ",";
-                << getUnread() << endl;
+        << getUnread() << endl;
         outFile.close();
-    } else {
+    }
+    else
+    {
         cerr << "Error: Could not open messages.csv for writing." << endl;
     }
 }
+
+Message::~Message() {}

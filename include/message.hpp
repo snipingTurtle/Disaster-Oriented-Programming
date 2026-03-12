@@ -34,8 +34,6 @@ public:
     bool getUnread() const;
 
 
-
-    void DeleteMessage();
     void SaveMessage();
 
     ~Message();
