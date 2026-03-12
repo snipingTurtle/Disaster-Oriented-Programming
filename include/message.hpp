@@ -9,7 +9,8 @@ using namespace std;
 class Message
 {
 private:
-    static int message_id;
+    static int idGen;
+    const int message_id;
     int sender_id;
     int reciever_id;
     string content;
@@ -24,8 +25,6 @@ public:
     void setSender(const int &sender);
     void setReciever(const int &reciever);
     void setContent(const string &s);
-
-    virtual void setMessage(const string &s, const int &reciever) = 0;
 
     int getSender() const;
     int getReciever() const;

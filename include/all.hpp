@@ -16,5 +16,6 @@
 #include "notice_board.hpp"
 #include "Provost.hpp"
 #include "user.hpp"
+#include "message.hpp"
 
 #endif
