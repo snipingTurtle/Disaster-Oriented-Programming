@@ -100,3 +100,26 @@ vector<NoticeBoard> DatabaseHandler::LoadNotices() {
     }
     return notices;
 }
+
+void DatabaseHandler::GetMessage(const int &message_id)
+{
+    ifstream inFile("messages.csv");
+
+    string line;
+
+    while (getline(inFile, line))
+    {
+        stringstream ss(line);
+        string id;
+
+        getline(ss, id, ',');
+
+        if (stoi(id) == message_id)
+        {
+            cout << "Message found: " << line << endl;
+            return;
+        }
+    }
+
+    cout << "Message not found." << endl;
+}

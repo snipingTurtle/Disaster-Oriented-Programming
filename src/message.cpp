@@ -5,13 +5,17 @@ using namespace std;
 
 int Message::idGen = 1;
 
-Message::Message() : message_id(idGen++), sender_id(0), reciever_id(0), content("NULL"), timestamp(chrono::system_clock::now()), unread(false)
+Message::Message() : message_id(idGen++), sender_id(0), reciever_id(0), content("NULL"), timestamp(chrono::system_clock::now()), unread(true)
 {
 }
 
-Message::Message(const int &sender, const int &reciever, const string &s) : message_id(idGen++), sender_id(sender), reciever_id(reciever), timestamp(chrono::system_clock::now()), unread(false)
+Message::Message(const int &sender, const int &reciever, const string &s) : message_id(idGen++), sender_id(sender), reciever_id(reciever), timestamp(chrono::system_clock::now()), unread(true)
 {
     setContent(s);
+}
+
+Message::Message(const int &id, const int &sender, const int &reciever, const string &s, chrono::system_clock::time_point time, bool status) : message_id(id), sender_id(sender), reciever_id(reciever), timestamp(time), unread(status)
+{
 }
 
 void Message::setSender(const int &sender)

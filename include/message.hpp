@@ -20,6 +20,7 @@ private:
 public:
     Message();
     Message(const int &sender, const int &reciever, const string &s);
+    Message(const int &id, const int &sender, const int &reciever, const string &s, chrono::system_clock::time_point time, bool status);
 
     // Setter Functions
     void setSender(const int &sender);
@@ -33,10 +34,11 @@ public:
     chrono::system_clock::time_point getTime() const;
     bool getUnread() const;
 
-
     void SaveMessage();
 
     ~Message();
 };
+
+Message Decode
 
 #endif
