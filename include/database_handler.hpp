@@ -3,11 +3,15 @@
 
 #include <vector>
 #include <string>
+#include <unordered_map>
 #include "complaint.hpp"
 #include "notice_board.hpp"
 #include "message.hpp"
 
 class DatabaseHandler {
+private:
+    static unordered_map<int, Message> messages;
+
 public:
     // Complaint Database Operations
     static void SaveComplaint(const Complaint& complaint);
