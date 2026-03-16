@@ -19,6 +19,9 @@ Message::Message(const int &sender, const int &reciever, const string &s) : mess
 
 Message::Message(const int &id, const int &sender, const int &reciever, const string &s, chrono::system_clock::time_point time, bool status) : message_id(id), sender_id(sender), reciever_id(reciever), timestamp(time), unread(status)
 {
+    setContent(s);
+
+    if(id >= idGen) idGen = id + 1;
 }
 
 void Message::setSender(const int &sender)
@@ -159,7 +162,7 @@ istream& operator>>(istream& in, Message& message)
         return in; // EOF
 
     stringstream ss(line);
-    
+
     string id, sender, receiver, time, unread;
 
     getline(ss, id, ',');
