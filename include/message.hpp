@@ -34,8 +34,6 @@ public:
     chrono::system_clock::time_point getTime() const;
     bool getUnread() const;
 
-    void SaveMessage();
-
     ~Message();
 };
 
