@@ -1,6 +1,8 @@
 #include "message.hpp"
 #include "database_handler.hpp"
 #include <iostream>
+#include <chrono>
+#include <ctime>
 
 using namespace std;
 
@@ -78,6 +80,110 @@ void Message::MarkAsRead()
     unread = false;
 }
 
+void Message::operator=(const string &s)
+{
+    setContent(s);
+}
 
+string operator+(const string &s, const Message &message)
+{
+    return s + message.getContent();
+}
+
+Message::operator string() const
+{
+    return getContent();
+}
+
+ostream &operator<<(ostream &o, const Message &message)
+{
+    time_t t = chrono::system_clock::to_time_t(message.getTime());
+
+    string timeStr = ctime(&t);
+    timeStr.pop_back(); 
+
+    o << "[" << timeStr << "] "
+      << message.getSender() << " -> "
+      << message.getReciever() << ": "
+      << message.getContent() << endl;
+
+    // [Sun Mar 16 16:12:45 2026] 1 -> 2: Hello!
+
+    return o;
+}
+
+string readCSVField(stringstream &ss)
+{
+    string field;
+
+    if (ss.peek() == '"')
+    {
+        ss.get(); // remove opening quote
+
+        char c;
+        while (ss.get(c))
+        {
+            if (c == '"')
+            {
+                if (ss.peek() == '"') // escaped quote
+                {
+                    field += '"';
+                    ss.get();
+                }
+                else
+                {
+                    break; // end quote
+                }
+            }
+            else
+            {
+                field += c;
+            }
+        }
+
+        if (ss.peek() == ',')
+            ss.get();
+    }
+    else
+    {
+        getline(ss, field, ',');
+    }
+
+    return field;
+}
+
+istream& operator>>(istream& in, Message& message)
+{
+    string line;
+    if (!getline(in, line))
+        return in; // EOF
+
+    stringstream ss(line);
+    
+    string id, sender, receiver, time, unread;
+
+    getline(ss, id, ',');
+    getline(ss, sender, ',');
+    getline(ss, receiver, ',');
+
+    string content = readCSVField(ss);
+
+    getline(ss, time, ',');
+    getline(ss, unread);
+
+    int msgID = stoi(id);
+    int s = stoi(sender);
+    int r = stoi(receiver);
+    time_t t = stoll(time);
+
+    chrono::system_clock::time_point tp =
+        chrono::system_clock::from_time_t(t);
+
+    bool status = (unread == "1" || unread == "true");
+
+    message = Message(msgID, s, r, content, tp, status);
+
+    return in;
+}
 
 Message::~Message() {}

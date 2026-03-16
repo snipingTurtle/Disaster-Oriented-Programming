@@ -40,12 +40,13 @@ public:
     void Send() const;
 
     void operator=(const string &s);
+    operator string() const;
 
     ~Message();
 };
 
 string operator+(const string &s, const Message &message);
-string operator=(string &s, const Message &message);
 ostream& operator<<(ostream &o, const Message &message);
+istream& operator>>(istream& in, Message& message);
 
 #endif

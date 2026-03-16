@@ -27,6 +27,7 @@ public:
     static void LoadMessages();
     static Message GetMessage(const int &message_id);
     static void MarkMessageRead(const int &message_id);
+    static string escapeCSV(const string &s);
 };
 
 #endif

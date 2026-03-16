@@ -128,6 +128,21 @@ vector<NoticeBoard> DatabaseHandler::LoadNotices()
 
 unordered_map<int, Message> DatabaseHandler::messageDB;
 
+string DatabaseHandler::escapeCSV(const string &s)
+{
+    string result;
+
+    for (char c : s)
+    {
+        if (c == '"')
+            result += "\"\""; // double quotes
+        else
+            result += c;
+    }
+
+    return result;
+}
+
 void DatabaseHandler::SaveMessage(const Message &message)
 {
     ofstream outFile("messages.csv", ios::app);
@@ -140,7 +155,7 @@ void DatabaseHandler::SaveMessage(const Message &message)
     outFile << message.getMessageID() << ","
             << message.getSender() << ","
             << message.getReciever() << ","
-            << message.getContent() << ","
+            << '"' << escapeCSV(message.getContent()) << '"' << ","
             << t << ","
             << message.getUnread()
             << endl;
@@ -151,35 +166,13 @@ void DatabaseHandler::SaveMessage(const Message &message)
 void DatabaseHandler::LoadMessages()
 {
     ifstream inFile("messages.csv");
-    string line;
+    if(!inFile) return;
+    
+    Message m;
 
-    while (getline(inFile, line))
+    while (inFile >> m)
     {
-        stringstream ss(line);
-
-        string id, sender, receiver, content, time, unread;
-
-        getline(ss, id, ',');
-        getline(ss, sender, ',');
-        getline(ss, receiver, ',');
-        getline(ss, content, ',');
-        getline(ss, time, ',');
-        getline(ss, unread, ',');
-
-        int msgID = stoi(id);
-
-        chrono::system_clock::time_point tp =
-            chrono::system_clock::from_time_t(stoll(time));
-
-        Message m(
-            msgID,
-            stoi(sender),
-            stoi(receiver),
-            content,
-            tp,
-            unread == "1");
-
-        messages[msgID] = m;
+        messageDB[m.getMessageID()] = m;
     }
 }
 
