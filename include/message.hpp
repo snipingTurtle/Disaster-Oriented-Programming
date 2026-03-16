@@ -2,7 +2,8 @@
 #define MESSAGE_H
 
 #include <iostream>
-#include<chrono>
+#include <chrono>
+#include <ostream>
 
 using namespace std;
 
@@ -26,7 +27,9 @@ public:
     void setSender(const int &sender);
     void setReciever(const int &reciever);
     void setContent(const string &s);
+    void MarkAsRead();
 
+    // Getter Functions
     int getSender() const;
     int getReciever() const;
     string getContent() const;
@@ -34,9 +37,15 @@ public:
     chrono::system_clock::time_point getTime() const;
     bool getUnread() const;
 
+    void Send() const;
+
+    void operator=(const string &s);
+
     ~Message();
 };
 
-Message Decode
+string operator+(const string &s, const Message &message);
+string operator=(string &s, const Message &message);
+ostream& operator<<(ostream &o, const Message &message);
 
 #endif

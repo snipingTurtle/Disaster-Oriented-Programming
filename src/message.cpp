@@ -1,4 +1,5 @@
 #include "message.hpp"
+#include "database_handler.hpp"
 #include <iostream>
 
 using namespace std;
@@ -67,23 +68,16 @@ bool Message::getUnread() const
     return unread;
 }
 
-void Message::SaveMessage()
+void Message::Send() const
 {
-    ofstream outFile("messages.csv", ios::app);
-    if (outFile.is_open())
-    {
-        outFile << getMessageID() << ","
-                << getSender() << ","
-                << getReciever() << ","
-                << getContent() << ","
-                << getTime() << ",";
-        << getUnread() << endl;
-        outFile.close();
-    }
-    else
-    {
-        cerr << "Error: Could not open messages.csv for writing." << endl;
-    }
+    DatabaseHandler::SaveMessage(*this);
 }
+
+void Message::MarkAsRead()
+{
+    unread = false;
+}
+
+
 
 Message::~Message() {}

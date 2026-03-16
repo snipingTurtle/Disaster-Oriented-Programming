@@ -10,7 +10,7 @@
 
 class DatabaseHandler {
 private:
-    static unordered_map<int, Message> messages;
+    static unordered_map<int, Message> messageDB;
 
 public:
     // Complaint Database Operations
@@ -24,8 +24,9 @@ public:
 
     // Message Database Operations
     static void SaveMessage(const Message &message);
-    static vector<Message> LoadMessages();
+    static void LoadMessages();
     static Message GetMessage(const int &message_id);
+    static void MarkMessageRead(const int &message_id);
 };
 
 #endif
