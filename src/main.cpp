@@ -1,5 +1,5 @@
 #include <iostream>
-#include "all.hpp"
+#include "all.hpp" // This header likely links to the newly separated Authorization class
 
 using namespace std;
 
