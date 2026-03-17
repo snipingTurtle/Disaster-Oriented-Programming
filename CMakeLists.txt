@@ -12,4 +12,7 @@ add_executable(HMS
     src/complaint.cpp
     src/notice_board.cpp
     src/database_handler.cpp
+    src/student.cpp
+    src/person.cpp
+    src/student_database.cpp
 )

@@ -4,9 +4,11 @@
 
 #include "user.hpp"
 #include "complaint.hpp"
+#include "student.hpp"
+#include "person.hpp"
+#include "student_database.hpp"
 
 using namespace std;
-
 class Authorization{
     private:
         string name;
@@ -36,6 +38,7 @@ class Authorization{
                 cout << "Name or Email already exists\n";
             }
             else {
+                //Need to change here so that more info about student can be added ~ Zahin
                 ofstream f(file_name, ios::app);
                 f << in_name << "," << in_email << "," << pass << "\n";
                 f.close();
