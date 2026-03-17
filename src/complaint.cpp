@@ -36,7 +36,7 @@ void Complaint::SetComplaint(const string& text) {
     }
     complaintText = text;
     DatabaseHandler::SaveComplaint(*this);
-    cout << "Success: Complaint has been securely filed." << endl;
+    cout << "Success: Complaint has been securely filed and logged in the database." << endl;
 }
 
 void Complaint::UpdateComplaint(const string& newText) {

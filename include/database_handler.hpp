@@ -3,18 +3,31 @@
 
 #include <vector>
 #include <string>
+#include <unordered_map>
 #include "complaint.hpp"
 #include "notice_board.hpp"
+#include "message.hpp"
 
 class DatabaseHandler {
+private:
+    static unordered_map<int, Message> messageDB;
+
 public:
     // Complaint Database Operations
     static void SaveComplaint(const Complaint& complaint);
     static vector<Complaint> LoadComplaints();
+    static void UpdateComplaintStatus(int id, const string& newStatus);
 
     // NoticeBoard Database Operations
     static void SaveNotice(const NoticeBoard& notice);
     static vector<NoticeBoard> LoadNotices();
+
+    // Message Database Operations
+    static void SaveMessage(const Message &message);
+    static void LoadMessages();
+    static Message GetMessage(const int &message_id);
+    static void MarkMessageRead(const int &message_id);
+    static string escapeCSV(const string &s);
 };
 
 #endif

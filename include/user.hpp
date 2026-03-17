@@ -1,7 +1,6 @@
 #ifndef USER_HPP
 #define USER_HPP
 
-#include <iostream>
 #include <string>
 
 using namespace std;
@@ -14,12 +13,19 @@ private:
 
 public:
     User() : id(0), name("NULL"), priviledges("NULL") {}
-    User(const int &user_id, const string &s, const string &priv) : id(user_id), name(s), priviledges(priv) {}
+
+    User(const int& user_id, const string& s, const string& priv)
+        : id(user_id), name(s), priviledges(priv) {}
+
+    int getId() const;
+    string getName() const;
+    string getPriviledges() const;
 
     void Register();
     void LogIn();
     void LogOut();
-    ~User();
+
+    virtual ~User();
 };
 
 #endif
