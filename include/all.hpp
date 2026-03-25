@@ -18,4 +18,9 @@
 #include "user.hpp"
 #include "message.hpp"
 
+#include "person.hpp"
+#include "student.hpp"
+#include "user.hpp"
+#include "student_database.hpp"
+
 #endif

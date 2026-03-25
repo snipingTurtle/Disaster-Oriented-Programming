@@ -12,7 +12,7 @@ int main(){
         cout << "\n3: Exit";
         cout << "\nEnter Your Choice :: ";
         
-        cin >> choice;
+        cin >> choice;  
         if(choice.size() != 1) {
             cout << "Invalid input\n";
             continue;
