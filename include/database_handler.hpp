@@ -21,6 +21,7 @@ public:
     // NoticeBoard Database Operations
     static void SaveNotice(const NoticeBoard& notice);
     static vector<NoticeBoard> LoadNotices();
+    static void UpdateNotice(int id, const string& newTitle, const string& newText);
 
     // Message Database Operations
     static void SaveMessage(const Message &message);

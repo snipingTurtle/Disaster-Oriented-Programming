@@ -1,0 +1,3 @@
+/Users/mueejalbasit/projects/Disaster-Oriented-Programming/CMakeFiles/HMS.dir
+/Users/mueejalbasit/projects/Disaster-Oriented-Programming/CMakeFiles/edit_cache.dir
+/Users/mueejalbasit/projects/Disaster-Oriented-Programming/CMakeFiles/rebuild_cache.dir

@@ -58,6 +58,7 @@ void Complaint::UpdateStatus(const string& newStatus) {
         return;
     }
     status = newStatus;
+    DatabaseHandler::UpdateComplaintStatus(complaintID, status);
     cout << "Success: Complaint status updated to " << status << "." << endl;
 }
 

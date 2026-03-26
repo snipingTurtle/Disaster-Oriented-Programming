@@ -124,6 +124,22 @@ vector<NoticeBoard> DatabaseHandler::LoadNotices()
     return notices;
 }
 
+void DatabaseHandler::UpdateNotice(int id, const string& newTitle, const string& newText) {
+    vector<NoticeBoard> notices = LoadNotices();
+    ofstream outFile("notices.txt");
+    if (outFile.is_open()) {
+        for (auto& n : notices) {
+            if (n.GetNoticeID() == id) {
+                n.SetTitle(newTitle);
+                n.SetAnnouncement(newText);
+            }
+            outFile << n.GetNoticeID() << "," << n.GetAuthor() << "," << n.GetTimestamp() << ","
+                    << n.GetTitle() << "," << n.GetAnnouncement() << endl;
+        }
+        outFile.close();
+    }
+}
+
 // Database For Messages
 
 unordered_map<int, Message> DatabaseHandler::messageDB;

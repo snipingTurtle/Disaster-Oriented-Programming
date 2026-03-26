@@ -40,6 +40,7 @@ public:
 
     virtual void viewProfile() const;
 
+    virtual void updateNotice(int id, const string& title, const string& text) = 0;
     virtual void updateComplaintStatus(Complaint& complaint,
                                        const string& status) = 0;
     virtual void viewResidents() const = 0;
