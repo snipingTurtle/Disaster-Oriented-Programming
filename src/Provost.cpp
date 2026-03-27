@@ -90,7 +90,6 @@ void approve_pending() {
     pending.close();
     data.close();
 
-    // Optional: clear pending.csv after approval
     ofstream clear_pending(pending_file, ios::trunc);
     clear_pending.close();
 
@@ -113,7 +112,8 @@ void Provost::run(){
             break;
         }
         else if(c == 2){
-
+            cout << "did something\n";
+            approve_pending();
         }
     }
 }

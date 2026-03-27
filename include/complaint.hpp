@@ -25,11 +25,13 @@ public:
 
     void SetComplaint(const string& text);
     void UpdateComplaint(const string& newText);
-    void UpdateStatus(const string& newStatus);
     void SetStatus(const string& s);
     void DisplayComplaint() const;
+
+    void UpdateStatus(const string& newStatus);
+
+    virtual ~Complaint();
     
-    ~Complaint();
 };
 
 #endif

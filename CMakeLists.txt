@@ -23,4 +23,5 @@ add_executable(HMS
     src/Provost.cpp
     src/faculty.cpp
     src/faculty_database.cpp
+    src/admin_complaint.cpp
 )

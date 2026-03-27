@@ -17,6 +17,7 @@ public:
     static void SaveComplaint(const Complaint& complaint);
     static vector<Complaint> LoadComplaints();
     static void UpdateComplaintStatus(int id, const string& newStatus);
+    static void DeleteComplaint(int id);
 
     // NoticeBoard Database Operations
     static void SaveNotice(const NoticeBoard& notice);

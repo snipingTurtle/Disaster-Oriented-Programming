@@ -18,7 +18,7 @@
 #include "user.hpp"
 #include "message.hpp"
 #include "student.hpp"
-
+#include "admin_complaint.hpp"
 #include "person.hpp"
 #include "student.hpp"
 #include "user.hpp"

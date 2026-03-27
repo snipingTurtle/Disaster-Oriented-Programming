@@ -5,12 +5,27 @@
 #include <unordered_map>
 #include <chrono>
 #include <ctime>
+#include <filesystem>          // ← added for create_directories
 
 using namespace std;
 
+static const string COMPLAINTS_FILE = "database/complaints.csv";
+static const string CSV_HEADER      = "ComplaintID,StudentID,Date,Status,ComplaintText";
+
+// Creates database/ dir and header row if the file doesn't exist yet
+static void EnsureComplaintsFile() {
+    filesystem::create_directories("database");
+    ifstream check(COMPLAINTS_FILE);
+    if (!check.good()) {
+        ofstream init(COMPLAINTS_FILE);
+        init << CSV_HEADER << "\n";
+    }
+}
+
 void DatabaseHandler::SaveComplaint(const Complaint &complaint)
 {
-    ofstream outFile("complaints.txt", ios::app);
+    EnsureComplaintsFile();
+    ofstream outFile(COMPLAINTS_FILE, ios::app);
     if (outFile.is_open())
     {
         outFile << complaint.GetComplaintID() << ","
@@ -22,18 +37,20 @@ void DatabaseHandler::SaveComplaint(const Complaint &complaint)
     }
     else
     {
-        cerr << "Error: Could not open complaints.txt for writing." << endl;
+        cerr << "Error: Could not open " << COMPLAINTS_FILE << " for writing." << endl;
     }
 }
 
 vector<Complaint> DatabaseHandler::LoadComplaints()
 {
+    EnsureComplaintsFile();
     vector<Complaint> complaints;
-    ifstream inFile("complaints.txt");
+    ifstream inFile(COMPLAINTS_FILE);
     string line;
 
     if (inFile.is_open())
     {
+        getline(inFile, line); // skip header row
         while (getline(inFile, line))
         {
             stringstream ss(line);
@@ -45,7 +62,6 @@ vector<Complaint> DatabaseHandler::LoadComplaints()
                 getline(ss, status, ',') &&
                 getline(ss, text))
             {
-
                 Complaint c(stoi(id_str), text, stoi(sID_str), date);
                 c.SetStatus(status);
                 complaints.push_back(c);
@@ -59,20 +75,42 @@ vector<Complaint> DatabaseHandler::LoadComplaints()
 void DatabaseHandler::UpdateComplaintStatus(int id, const string &newStatus)
 {
     vector<Complaint> complaints = LoadComplaints();
-    ofstream outFile("complaints.txt"); // Overwrite
+    ofstream outFile(COMPLAINTS_FILE); // Overwrite
     if (outFile.is_open())
     {
+        outFile << CSV_HEADER << "\n"; // re-write header
         for (auto &c : complaints)
         {
             if (c.GetComplaintID() == id)
-            {
                 c.SetStatus(newStatus);
-            }
+
             outFile << c.GetComplaintID() << ","
                     << c.GetStudentID() << ","
                     << c.GetDate() << ","
                     << c.GetStatus() << ","
                     << c.GetComplaintText() << endl;
+        }
+        outFile.close();
+    }
+}
+
+void DatabaseHandler::DeleteComplaint(int id)          // ← new function
+{
+    vector<Complaint> complaints = LoadComplaints();
+    ofstream outFile(COMPLAINTS_FILE); // Overwrite
+    if (outFile.is_open())
+    {
+        outFile << CSV_HEADER << "\n"; // re-write header
+        for (auto &c : complaints)
+        {
+            if (c.GetComplaintID() != id) // skip the deleted one
+            {
+                outFile << c.GetComplaintID() << ","
+                        << c.GetStudentID() << ","
+                        << c.GetDate() << ","
+                        << c.GetStatus() << ","
+                        << c.GetComplaintText() << endl;
+            }
         }
         outFile.close();
     }
@@ -95,6 +133,7 @@ void DatabaseHandler::SaveNotice(const NoticeBoard &notice)
         cerr << "Error: Could not open notices.txt for writing." << endl;
     }
 }
+
 vector<NoticeBoard> DatabaseHandler::LoadNotices()
 {
     vector<NoticeBoard> notices;
@@ -114,7 +153,6 @@ vector<NoticeBoard> DatabaseHandler::LoadNotices()
                 getline(ss, title, ',') &&
                 getline(ss, announcement))
             {
-
                 NoticeBoard n(stoi(id_str), title, announcement, author, ts);
                 notices.push_back(n);
             }
@@ -140,29 +178,24 @@ void DatabaseHandler::UpdateNotice(int id, const string& newTitle, const string&
     }
 }
 
-// Database For Messages
-
 unordered_map<int, Message> DatabaseHandler::messageDB;
 
 string escapeCSV(const string &s)
 {
     string result;
-
     for (char c : s)
     {
         if (c == '"')
-            result += "\"\""; // double quotes
+            result += "\"\"";
         else
             result += c;
     }
-
     return result;
 }
 
 void DatabaseHandler::SaveMessage(const Message &message)
 {
     ofstream outFile("messages.csv", ios::app);
-
     if (!outFile)
         throw runtime_error("Could not open messages.csv");
 
@@ -183,9 +216,8 @@ void DatabaseHandler::LoadMessages()
 {
     ifstream inFile("messages.csv");
     if(!inFile) return;
-    
-    Message m;
 
+    Message m;
     while (inFile >> m)
     {
         messageDB[m.getMessageID()] = m;
@@ -196,7 +228,6 @@ Message DatabaseHandler::GetMessage(const int &message_id)
 {
     if (messageDB.find(message_id) == messageDB.end())
         throw runtime_error("Message not found");
-
     return messageDB[message_id];
 }
 

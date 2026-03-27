@@ -156,7 +156,7 @@ string readCSVField(stringstream &ss)
     return field;
 }
 
-istream& operator>>(istream& in, Message& message)
+istream& operator >> (istream& in, Message& message)
 {
     string line;
     if (!getline(in, line))
