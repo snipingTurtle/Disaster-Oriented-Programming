@@ -24,6 +24,9 @@ public:
 
     void viewResidents() const override;
     string role() const override;
+
+    void approvePending();
+    void manageNotices();
     void run();
 
     ~Provost();

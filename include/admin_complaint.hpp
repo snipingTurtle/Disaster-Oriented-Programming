@@ -10,6 +10,7 @@ public:
 
     void UpdateStatus(const string& newStatus);
     void DeleteComplaint();
+    void run();
 
     ~AdminComplaint();
 };

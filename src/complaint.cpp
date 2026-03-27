@@ -62,27 +62,63 @@ void Complaint::UpdateStatus(const string& newStatus) {
     cout << "Success: Complaint status updated to " << status << "." << endl;
 }
 
-// void Complaint::DisplayComplaint() const {
-//     cout << "\n============================================\n";
-//     cout << "              COMPLAINT REPORT              \n";
-//     cout << "============================================\n";
-//     cout << "  Complaint ID : " << complaintID << "\n";
-//     cout << "  Student ID   : " << studentID << "\n";
-//     cout << "  Date Filed   : " << date << "\n";
-//     cout << "  Status       : " << status << "\n";
-//     cout << "--------------------------------------------\n";
-//     cout << "  Description  :\n  " << complaintText << "\n";
-//     cout << "============================================\n";
-// }
+void Complaint::DisplayComplaint() const {
+    cout << "\n============================================\n";
+    cout << "              COMPLAINT REPORT              \n";
+    cout << "============================================\n";
+    cout << "  Complaint ID : " << complaintID << "\n";
+    cout << "  Student ID   : " << studentID << "\n";
+    cout << "  Date Filed   : " << date << "\n";
+    cout << "  Status       : " << status << "\n";
+    cout << "--------------------------------------------\n";
+    cout << "  Description  :\n  " << complaintText << "\n";
+    cout << "============================================\n";
+}
 
 Complaint::~Complaint() {}
 
-void Complaint::run(){
-    while(1){
+// Student-facing complaint panel — requires the student's ID to scope their complaints
+void Complaint::run(int sID) {
+    while (true) {
         cout << "\nComplaint Panel\n";
-        cout << "1: View All Complaints\n";
-        cout << "2: Give a complaint\n";
-        cout << "3: Logout\n";
-    }
+        cout << "1: View My Complaints\n";
+        cout << "2: File a Complaint\n";
+        cout << "3: Back\n";
+        cout << "Choice: ";
 
+        int c;
+        cin >> c;
+        cin.ignore();
+
+        if (c == 3) break;
+
+        else if (c == 1) {
+            vector<Complaint> all = DatabaseHandler::LoadComplaints();
+            bool found = false;
+            for (auto& comp : all) {
+                if (comp.GetStudentID() == sID) {
+                    comp.DisplayComplaint();
+                    found = true;
+                }
+            }
+            if (!found) cout << "You have no complaints on record.\n";
+        }
+
+        else if (c == 2) {
+            // Generate next ID
+            vector<Complaint> all = DatabaseHandler::LoadComplaints();
+            int newID = all.empty() ? 1 : all.back().GetComplaintID() + 1;
+
+            string text, date;
+            cout << "Enter complaint text: "; getline(cin, text);
+            cout << "Enter date (YYYY-MM-DD): "; getline(cin, date);
+
+            Complaint comp(newID, "", sID, date);
+            comp.SetComplaint(text);   // validates + saves to DB
+        }
+
+        else {
+            cout << "Invalid option.\n";
+        }
+    }
 }

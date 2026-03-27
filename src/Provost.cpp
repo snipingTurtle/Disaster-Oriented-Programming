@@ -1,19 +1,22 @@
 #include "Provost.hpp"
 #include <iostream>
 #include <stdexcept>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <ctime>
 #include "AssistantToProvost.hpp"
 #include "complaint.hpp"
 #include "database_handler.hpp"
 #include "admin_complaint.hpp"
-#include <fstream>
-#include <string>
+#include "notice_board.hpp"
 
 using namespace std;
 
 int Provost::provostCount = 0;
 Provost::Provost(){}
 
-Provost::Provost(int id,const string &name, int appointmentYear)
+Provost::Provost(int id, const string &name, int appointmentYear)
     : Admin(id, name, "Admin", "Provost", 10), appointmentYear(appointmentYear)
 {
     if(provostCount >= 1)
@@ -31,23 +34,26 @@ int Provost::getAppointmentYear() const
 void Provost::assignShift(AssistantToProvost &assistant, const string &shift)
 {
     assistant.setShift(shift);
-
-    cout<<"Provost assigned shift '"<<shift<<"' to "<< assistant.role() << endl;
+    cout << "Provost assigned shift '" << shift << "' to " << assistant.role() << endl;
 }
-
 
 void Provost::updateComplaintStatus(Complaint &complaint, const string &status)
 {
     complaint.UpdateStatus(status);
     DatabaseHandler::UpdateComplaintStatus(complaint.GetComplaintID(), status);
-
-    cout << "Provost updated complaint ID "<< complaint.GetComplaintID()<< " to status: " << status << endl;
+    cout << "Provost updated complaint ID " << complaint.GetComplaintID()
+         << " to status: " << status << endl;
 }
 
-
-void Provost::viewResidents() const // Not implemented yet
+void Provost::updateNotice(int id, const string& title, const string& text)
 {
-    cout<< "Provost is viewing all residents."<<endl;
+    DatabaseHandler::UpdateNotice(id, title, text);
+    cout << "Notice #" << id << " has been updated.\n";
+}
+
+void Provost::viewResidents() const
+{
+    cout << "Provost is viewing all residents." << endl;
 }
 
 string Provost::role() const
@@ -55,69 +61,182 @@ string Provost::role() const
     return "Provost";
 }
 
-void Provost::updateNotice(int id, const string& title, const string& text) {
-    cout << "Notice has been updated\n";                                                       
-}
-
-
-Provost::~Provost()
+// ---------------------------------------------------------------------------
+// Approve / reject pending users one by one
+// ---------------------------------------------------------------------------
+void Provost::approvePending()
 {
-    provostCount--;
-}
-
-void approve_pending() {
-    string pending_file = "database/pending.csv";
-    string data_file = "database/data.csv";
+    const string pending_file = "database/pending.csv";
+    const string data_file    = "database/data.csv";
 
     ifstream pending(pending_file);
     if (!pending.is_open()) {
-        cout << "Failed to open pending.csv!" << endl;
+        cout << "Failed to open pending.csv!\n";
         return;
     }
 
-    ofstream data(data_file, ios::app);
-    if (!data.is_open()) {
-        cout << "Failed to open data.csv!" << endl;
-        pending.close();
-        return;
-    }
-
+    vector<string> lines;
     string line;
-    while(getline(pending, line)) {
-        if(line.empty()) continue;  // skip empty lines
-        data << line << "\n";       // append to data.csv
+    while (getline(pending, line)) {
+        if (!line.empty()) lines.push_back(line);
+    }
+    pending.close();
+
+    if (lines.empty()) {
+        cout << "No pending users awaiting approval.\n";
+        return;
     }
 
-    pending.close();
-    data.close();
+    vector<string> approved;
+    vector<string> skipped;
 
+    for (const string& entry : lines) {
+        stringstream ss(entry);
+        string name, email, pass, role;
+        getline(ss, name, ',');
+        getline(ss, email, ',');
+        getline(ss, pass, ',');
+        getline(ss, role);
+
+        cout << "\n--- Pending User ---\n";
+        cout << "  Name  : " << name  << "\n";
+        cout << "  Email : " << email << "\n";
+        cout << "  Role  : " << role  << "\n";
+        cout << "Approve? (y = approve / n = reject / s = skip for later): ";
+
+        char choice;
+        cin >> choice;
+
+        if (choice == 'y' || choice == 'Y') {
+            approved.push_back(entry);
+            cout << "Approved.\n";
+        } else if (choice == 'n' || choice == 'N') {
+            cout << "Rejected and removed from queue.\n";
+            // discarded — not added anywhere
+        } else {
+            skipped.push_back(entry);
+            cout << "Skipped (kept in pending).\n";
+        }
+    }
+
+    if (!approved.empty()) {
+        ofstream data(data_file, ios::app);
+        if (!data.is_open()) {
+            cout << "Failed to open data.csv!\n";
+            return;
+        }
+        for (const string& a : approved) data << a << "\n";
+        data.close();
+        cout << "\n" << approved.size() << " user(s) approved and added.\n";
+    }
+
+    // Rewrite pending.csv with only skipped entries
     ofstream clear_pending(pending_file, ios::trunc);
+    for (const string& s : skipped) clear_pending << s << "\n";
     clear_pending.close();
-
-    cout << "All pending users have been approved and added to data.csv!" << endl;
 }
 
+// ---------------------------------------------------------------------------
+// Notice board management
+// ---------------------------------------------------------------------------
+void Provost::manageNotices()
+{
+    while (true) {
+        cout << "\n--- Notice Board ---\n";
+        cout << "1: Post a new notice\n";
+        cout << "2: View all notices\n";
+        cout << "3: Update an existing notice\n";
+        cout << "4: Back\n";
+        cout << "Choice: ";
 
-void Provost::run(){
-    while(1){
+        int c;
+        cin >> c;
+        cin.ignore();
+
+        if (c == 4) break;
+
+        else if (c == 1) {
+            vector<NoticeBoard> existing = DatabaseHandler::LoadNotices();
+            int newID = existing.empty() ? 1 : existing.back().GetNoticeID() + 1;
+
+            string title, text;
+            cout << "Title   : "; getline(cin, title);
+            cout << "Message : "; getline(cin, text);
+
+            // Auto-generate timestamp
+            time_t now = time(nullptr);
+            char buf[32];
+            strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", localtime(&now));
+            string timestamp(buf);
+
+            NoticeBoard nb(newID, "", "", getName(), timestamp);
+            // postNotice sets all fields and calls SetAnnouncement, which saves to DB
+            postNotice(nb, title, text, timestamp);
+        }
+
+        else if (c == 2) {
+            vector<NoticeBoard> notices = DatabaseHandler::LoadNotices();
+            if (notices.empty()) {
+                cout << "No notices found.\n";
+            } else {
+                for (auto& n : notices) n.ViewNotice();
+            }
+        }
+
+        else if (c == 3) {
+            cout << "Enter Notice ID to update: ";
+            int id; cin >> id; cin.ignore();
+
+            string title, text;
+            cout << "New Title   : "; getline(cin, title);
+            cout << "New Message : "; getline(cin, text);
+
+            updateNotice(id, title, text);
+        }
+
+        else {
+            cout << "Invalid option.\n";
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Main interactive loop
+// ---------------------------------------------------------------------------
+void Provost::run()
+{
+    while (true) {
         cout << "\nProvost Panel\n";
         cout << "1: Complaints\n";
         cout << "2: Approve Users\n";
-        cout << "3: Logout\n";
+        cout << "3: Notices\n";
+        cout << "4: Logout\n";
+        cout << "Choice: ";
 
         int c;
         cin >> c;
 
-        if(c == 3) {
+        if (c == 4) {
             cout << "Logging out from Provost Level\n";
             break;
         }
-        else if(c == 2){
-            approve_pending();
+        else if (c == 2) {
+            approvePending();
         }
-        else if(c == 1){
+        else if (c == 1) {
             AdminComplaint AC;
             AC.run();
         }
+        else if (c == 3) {
+            manageNotices();
+        }
+        else {
+            cout << "Invalid option.\n";
+        }
     }
+}
+
+Provost::~Provost()
+{
+    provostCount--;
 }

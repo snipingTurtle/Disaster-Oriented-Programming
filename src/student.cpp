@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include "../include/student.hpp"
+#include "../include/complaint.hpp"
 #define nl '\n'
 using namespace std;
 
@@ -129,9 +130,13 @@ void student::run(){
         int c;
         cin >> c;
 
-        if(c == 3) {
+        if(c == 6) {
             cout << "Logging out from Student Level\n";
             break;
+        }
+        else if(c == 5) {
+            Complaint comp;
+            comp.run(id);
         }
     }
 }
