@@ -115,3 +115,23 @@ void Faculty(){
     //faculty f1(129, "Zahin", 159154, "O+", 39629, 123, "South Hall");
     //f1.displayDetails();
 }
+
+void faculty::run(){
+    while(1){
+        cout << "\nFaculty Panel\n";
+        cout << "1: View Notices\n";
+        cout << "2: Give General Announcement\n";
+        cout << "3: Send Message\n";
+        cout << "4: Read Messages\n";
+        cout << "5: Set Complaint\n";
+        cout << "6: Exit\n";
+
+        int c;
+        cin >> c;
+
+        if(c == 3) {
+            cout << "Logging out from Faculty Level\n";
+            break;
+        }
+}
+}

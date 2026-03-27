@@ -38,10 +38,14 @@ int main(){
                 s.run();
             }
             else if(r == "faculty"){
+                faculty f;
                 cout << "Calling faculty UI\n";
+                f.run();
             }
             else if(r == "part time faculty"){
+                faculty f;
                 cout << "Calling part time faculty UI\n";
+                f.run();
             }
             else if(r == "provost"){
                 Provost p;
@@ -49,7 +53,10 @@ int main(){
                 p.run();
             }
             else if(r=="manager"){
+                Provost p;
                 cout << "Calling manager UI\n";
+                p.run();
+
             }
         }
         else if(choice[0] == '2'){

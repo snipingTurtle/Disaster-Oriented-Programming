@@ -45,7 +45,7 @@ class faculty : public Person{
         void readMessages();
         void writeMessage();
         void readReadMessagesFile();
-
+        void run();
 
 
         //bool checkFirstTimeLogin();
