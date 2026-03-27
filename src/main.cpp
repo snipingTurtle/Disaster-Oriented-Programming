@@ -60,5 +60,7 @@ int main(){
             cout << "Invalid input\n";
             continue;
         }
+
+        
     }    
 }
