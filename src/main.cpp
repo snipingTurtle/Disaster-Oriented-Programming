@@ -34,16 +34,19 @@ int main(){
             }
             else if(r == "student"){
                 student s;
+                s.setLoginName(a);
                 cout << "Calling student UI\n\n";
                 s.run();
             }
             else if(r == "faculty"){
                 faculty f;
+                f.setLoginName(a);
                 cout << "Calling faculty UI\n";
                 f.run();
             }
             else if(r == "part time faculty"){
                 faculty f;
+                f.setLoginName(a);
                 cout << "Calling part time faculty UI\n";
                 f.run();
             }

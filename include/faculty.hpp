@@ -1,6 +1,9 @@
 #ifndef FACULTY_H
 #define FACULTY_H
 #include <string>
+#include <fstream>
+#include <sstream>
+#include <vector>
 #include "person.hpp"
 using namespace std;
 class faculty : public Person{
@@ -11,6 +14,7 @@ class faculty : public Person{
         string password;
         string email;
         int unreadMessages;
+        string loginName;
     public:
         faculty(){
             unreadMessages = 0;
@@ -46,8 +50,9 @@ class faculty : public Person{
         void writeMessage();
         void readReadMessagesFile();
         void run();
-
-
+        void setLoginName(const string& n);
+        bool checkFirstTimeLogin();
+        void firstTimeLogin();
         //bool checkFirstTimeLogin();
         //void firstTimeLogin();
 };

@@ -109,6 +109,27 @@ void Provost::approvePending()
 
         if (choice == 'y' || choice == 'Y') {
             approved.push_back(entry);
+            // Write stub row to role-specific CSV for first-time login detection
+            string trimmed_role = role;
+            size_t rs = trimmed_role.find_first_not_of(" \r\n\t");
+            size_t re = trimmed_role.find_last_not_of(" \r\n\t");
+            if (rs != string::npos) trimmed_role = trimmed_role.substr(rs, re - rs + 1);
+
+            if (trimmed_role == "student") {
+                ofstream stub("database/students.csv", ios::app);
+                if (stub.is_open()) {
+                    // Format: name,email,pass,   (id empty = first time login)
+                    stub << name << "," << email << "," << pass << ",\n";
+                    stub.close();
+                }
+            } else if (trimmed_role == "faculty" || trimmed_role == "part time faculty") {
+                ofstream stub("database/faculty.csv", ios::app);
+                if (stub.is_open()) {
+                    // Format: name,email,pass,   (id empty = first time login)
+                    stub << name << "," << email << "," << pass << ",\n";
+                    stub.close();
+                }
+            }
             cout << "Approved.\n";
         } else if (choice == 'n' || choice == 'N') {
             cout << "Rejected and removed from queue.\n";
