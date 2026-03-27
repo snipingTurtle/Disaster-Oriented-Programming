@@ -11,7 +11,7 @@ class Message
 {
 private:
     static int idGen;
-    int message_id;
+    int message_id; //zahin removed const here
     int sender_id;
     int reciever_id;
     string content;

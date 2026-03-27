@@ -13,6 +13,7 @@ add_executable(HMS
     src/complaint.cpp
     src/notice_board.cpp
     src/database_handler.cpp
+    src/message.cpp
     src/student.cpp
     src/person.cpp
     src/student_database.cpp
@@ -20,5 +21,6 @@ add_executable(HMS
     src/AssistantProvost.cpp
     src/AssistantToProvost.cpp
     src/Provost.cpp
-    src/message.cpp
+    src/faculty.cpp
+    src/faculty_database.cpp
 )
