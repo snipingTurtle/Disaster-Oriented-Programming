@@ -4,6 +4,8 @@
 #include "AssistantToProvost.hpp"
 #include "complaint.hpp"
 #include "database_handler.hpp"
+#include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -62,6 +64,40 @@ Provost::~Provost()
     provostCount--;
 }
 
+void approve_pending() {
+    string pending_file = "database/pending.csv";
+    string data_file = "database/data.csv";
+
+    ifstream pending(pending_file);
+    if (!pending.is_open()) {
+        cout << "Failed to open pending.csv!" << endl;
+        return;
+    }
+
+    ofstream data(data_file, ios::app);
+    if (!data.is_open()) {
+        cout << "Failed to open data.csv!" << endl;
+        pending.close();
+        return;
+    }
+
+    string line;
+    while(getline(pending, line)) {
+        if(line.empty()) continue;  // skip empty lines
+        data << line << "\n";       // append to data.csv
+    }
+
+    pending.close();
+    data.close();
+
+    // Optional: clear pending.csv after approval
+    ofstream clear_pending(pending_file, ios::trunc);
+    clear_pending.close();
+
+    cout << "All pending users have been approved and added to data.csv!" << endl;
+}
+
+
 void Provost::run(){
     while(1){
         cout << "\nProvost Panel\n";
@@ -75,6 +111,9 @@ void Provost::run(){
         if(c == 3) {
             cout << "Logging out from Provost Level\n";
             break;
+        }
+        else if(c == 2){
+
         }
     }
 }
