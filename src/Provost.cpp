@@ -4,6 +4,7 @@
 #include "AssistantToProvost.hpp"
 #include "complaint.hpp"
 #include "database_handler.hpp"
+#include "admin_complaint.hpp"
 #include <fstream>
 #include <string>
 
@@ -100,7 +101,7 @@ void approve_pending() {
 void Provost::run(){
     while(1){
         cout << "\nProvost Panel\n";
-        cout << "1: View Complaints\n";
+        cout << "1: Complaints\n";
         cout << "2: Approve Users\n";
         cout << "3: Logout\n";
 
@@ -112,8 +113,11 @@ void Provost::run(){
             break;
         }
         else if(c == 2){
-            cout << "did something\n";
             approve_pending();
+        }
+        else if(c == 1){
+            AdminComplaint AC;
+            AC.run();
         }
     }
 }

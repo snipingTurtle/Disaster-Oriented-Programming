@@ -29,7 +29,7 @@ public:
     void DisplayComplaint() const;
 
     void UpdateStatus(const string& newStatus);
-
+    void run();
     virtual ~Complaint();
     
 };
