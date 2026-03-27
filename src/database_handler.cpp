@@ -144,7 +144,7 @@ void DatabaseHandler::UpdateNotice(int id, const string& newTitle, const string&
 
 unordered_map<int, Message> DatabaseHandler::messageDB;
 
-string DatabaseHandler::escapeCSV(const string &s)
+string escapeCSV(const string &s)
 {
     string result;
 
@@ -188,7 +188,7 @@ void DatabaseHandler::LoadMessages()
 
     while (inFile >> m)
     {
-        // messageDB[m.getMessageID()] = m;
+        messageDB[m.getMessageID()] = m;
     }
 }
 
