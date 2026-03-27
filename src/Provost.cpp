@@ -5,13 +5,31 @@
 #include <sstream>
 #include <string>
 #include <ctime>
+#include <vector>
 #include "AssistantToProvost.hpp"
 #include "complaint.hpp"
 #include "database_handler.hpp"
 #include "admin_complaint.hpp"
 #include "notice_board.hpp"
+#include "message.hpp"
 
 using namespace std;
+
+// Returns the data.csv serial ID for this user (used as messaging ID)
+static int getDataId(const string& loginName) {
+    ifstream f("database/data.csv");
+    string line;
+    while (getline(f, line)) {
+        stringstream ss(line);
+        string id_str, n, e;
+        getline(ss, id_str, ',');
+        getline(ss, n, ',');
+        getline(ss, e, ',');
+        if (n == loginName || e == loginName)
+            return stoi(id_str);
+    }
+    return 0;
+}
 
 int Provost::provostCount = 0;
 Provost::Provost(){}
@@ -29,6 +47,11 @@ Provost::Provost(int id, const string &name, int appointmentYear)
 int Provost::getAppointmentYear() const
 {
     return appointmentYear;
+}
+
+void Provost::setLoginName(const string& n)
+{
+    loginName = n;
 }
 
 void Provost::assignShift(AssistantToProvost &assistant, const string &shift)
@@ -243,13 +266,15 @@ void Provost::run()
         cout << "1: Complaints\n";
         cout << "2: Approve Users\n";
         cout << "3: Notices\n";
-        cout << "4: Logout\n";
+        cout << "4: Send Message\n";
+        cout << "5: Read Messages\n";
+        cout << "6: Logout\n";
         cout << "Choice: ";
 
         int c;
         cin >> c;
 
-        if (c == 4) {
+        if (c == 6) {
             cout << "Logging out from Provost Level\n";
             break;
         }
@@ -262,6 +287,79 @@ void Provost::run()
         }
         else if (c == 3) {
             manageNotices();
+        }
+        else if (c == 4) {
+            int senderDataId = getDataId(loginName);
+            int destination;
+            cout << "Enter the recipient's data ID: ";
+            cin >> destination;
+            cin.ignore();
+            string content;
+            cout << "Enter your message (press Enter then ~ to finish):\n";
+            getline(cin, content, '~');
+            cin.ignore();
+            Message msg(senderDataId, destination, content);
+            msg.Send();
+            cout << "Message sent successfully!\n";
+        }
+        else if (c == 5) {
+            int myId = getDataId(loginName);
+            DatabaseHandler::LoadMessages();
+            ifstream inFile("database/messages.csv");
+            if (!inFile) { cout << "No messages.\n"; }
+            else {
+                cout << "\n1: Read New Messages\n2: View Read Messages\nChoice: ";
+                int sub; cin >> sub;
+
+                Message m;
+                vector<int> readIds;
+                bool found = false;
+                // Re-open for fresh read
+                inFile.close();
+                inFile.open("database/messages.csv");
+                while (inFile >> m) {
+                    bool isUnread = m.getUnread();
+                    if (m.getReciever() == myId && ((sub == 1 && isUnread) || (sub == 2 && !isUnread))) {
+                        cout << m;
+                        if (sub == 1) readIds.push_back(m.getMessageID());
+                        found = true;
+                    }
+                }
+                inFile.close();
+                if (!found) cout << (sub == 1 ? "No new messages.\n" : "No previously read messages.\n");
+
+                if (!readIds.empty()) {
+                    ifstream rf("database/messages.csv");
+                    vector<string> lines;
+                    string ln;
+                    while (getline(rf, ln)) lines.push_back(ln);
+                    rf.close();
+
+                    ofstream wf("database/messages.csv", ios::trunc);
+                    for (auto& l : lines) {
+                        stringstream ss(l);
+                        string id_s, sen, rec, rest;
+                        getline(ss, id_s, ',');
+                        getline(ss, sen, ',');
+                        getline(ss, rec, ',');
+                        getline(ss, rest);
+
+                        size_t last = rest.rfind(',');
+                        size_t second_last = rest.rfind(',', last - 1);
+                        string unrd    = rest.substr(last + 1);
+                        string ts      = rest.substr(second_last + 1, last - second_last - 1);
+                        string content = rest.substr(0, second_last);
+
+                        int msgId = stoi(id_s);
+                        bool nowUnread = (unrd == "1" || unrd == "true");
+                        for (int rid : readIds)
+                            if (rid == msgId) { nowUnread = false; break; }
+                        wf << id_s << "," << sen << "," << rec << ","
+                           << content << "," << ts << "," << nowUnread << "\n";
+                    }
+                    wf.close();
+                }
+            }
         }
         else {
             cout << "Invalid option.\n";

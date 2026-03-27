@@ -2,12 +2,31 @@
 #include <fstream>
 #include <string>
 #include <ctime>
+#include <sstream>
+#include <vector>
 #include "../include/student.hpp"
 #include "../include/complaint.hpp"
 #include "../include/notice_board.hpp"
 #include "../include/database_handler.hpp"
+#include "../include/message.hpp"
 #define nl '\n'
 using namespace std;
+
+// Returns the data.csv serial ID for this user (used as messaging ID)
+static int getDataId(const string& loginName) {
+    ifstream f("database/data.csv");
+    string line;
+    while (getline(f, line)) {
+        stringstream ss(line);
+        string id_str, n, e;
+        getline(ss, id_str, ',');
+        getline(ss, n, ',');
+        getline(ss, e, ',');
+        if (n == loginName || e == loginName)
+            return stoi(id_str);
+    }
+    return 0;
+}
 
 // ================== GETTER IMPLEMENTATIONS ==================
 
@@ -61,58 +80,127 @@ void student::setUnreadMessages(int newUnreadMessages) {
     unreadMessages = newUnreadMessages; 
 }
 void student::getCountOfUnreadMessages(){
-    string fileName = "../Messages/" + to_string(id) + "Unread.txt";
-    ifstream inFile(fileName);
+    int myId = getDataId(loginName);
+    DatabaseHandler::LoadMessages();
+    int count = 0;
+    ifstream inFile("database/messages.csv");
     string line;
     while (getline(inFile, line)) {
-        unreadMessages++;
+        stringstream ss(line);
+        string id_s, sender_s, recv_s, content, time_s, unread_s;
+        getline(ss, id_s, ',');
+        getline(ss, sender_s, ',');
+        getline(ss, recv_s, ',');
+        if (stoi(recv_s) == myId) {
+            getline(ss, content, ',');
+            getline(ss, time_s, ',');
+            getline(ss, unread_s);
+            if (unread_s == "1" || unread_s == "true") count++;
+        }
     }
-    cout << unreadMessages << "messages" << "\n";
+    unreadMessages = count;
+    cout << unreadMessages << " unread message(s)\n";
 }
+
 void student::readMessages(){
-    string fileName = "../Messages/" + to_string(id) + "Unread.txt";
-    ifstream inFile(fileName);
-    string fileName2 = "../Messages/" + to_string(id) + "Read.txt";
-    ofstream outFile;
-    outFile.open(fileName2, ios::app);
-    string line;
-    while (getline(inFile, line)) {
-        cout << line << "\n";
-        outFile << line << "\n";
+    int myId = getDataId(loginName);
+    DatabaseHandler::LoadMessages();
+
+    ifstream inFile("database/messages.csv");
+    if (!inFile) { cout << "No messages.\n"; return; }
+
+    Message m;
+    vector<int> readIds;
+    bool found = false;
+    while (inFile >> m) {
+        if (m.getReciever() == myId && m.getUnread()) {
+            cout << m;
+            readIds.push_back(m.getMessageID());
+            found = true;
+        }
     }
     inFile.close();
-    outFile.close();
-    outFile.open(fileName, ios::trunc);
-    if (outFile.is_open()) {
-        cout << "File '" << fileName << "' has been successfully cleared.\n";
-        outFile.close();
-    } else {
-        cerr << "Error: Could not open the file to clear it.\n";
+    if (!found) { cout << "No new messages.\n"; return; }
+
+    // Mark as read in DB map and rewrite file
+    for (int rid : readIds)
+        DatabaseHandler::MarkMessageRead(rid);
+
+    // Rewrite messages.csv with updated read status
+    DatabaseHandler::LoadMessages(); // reload to get updated state
+    // We need to rewrite the file — reload fresh then rewrite
+    {
+        // Read all lines, flip unread flag for marked IDs
+        ifstream rf("database/messages.csv");
+        vector<string> lines;
+        string ln;
+        while (getline(rf, ln)) lines.push_back(ln);
+        rf.close();
+
+        ofstream wf("database/messages.csv", ios::trunc);
+        for (auto& l : lines) {
+            stringstream ss(l);
+            string id_s, sen, rec, content, ts, unrd;
+            getline(ss, id_s, ',');
+            getline(ss, sen, ',');
+            getline(ss, rec, ',');
+
+            // rebuild content (quoted)
+            string rest;
+            getline(ss, rest);
+            // find the last two comma-separated fields (ts, unrd)
+            // content may contain commas so parse from the end
+            size_t last = rest.rfind(',');
+            size_t second_last = rest.rfind(',', last - 1);
+            unrd = rest.substr(last + 1);
+            ts   = rest.substr(second_last + 1, last - second_last - 1);
+            content = rest.substr(0, second_last);
+
+            int msgId = stoi(id_s);
+            bool wasUnread = (unrd == "1" || unrd == "true");
+            bool nowUnread = wasUnread;
+            for (int rid : readIds) {
+                if (rid == msgId) { nowUnread = false; break; }
+            }
+            wf << id_s << "," << sen << "," << rec << ","
+               << content << "," << ts << "," << nowUnread << "\n";
+        }
+        wf.close();
     }
 }
+
 void student::writeMessage(){
+    int senderDataId = getDataId(loginName);
     int destination;
-    cout << "Enter the id of recipient: ";
+    cout << "Enter the recipient's data ID: ";
     cin >> destination;
     cin.ignore();
-    string fileName = "../Messages/" + to_string(destination) + "Unread.txt";
-    ofstream outFile;
-    outFile.open(fileName, ios::app);
-    string message;
-    cout << "Enter your message, press ~ and enter when done: " << "\n";
-    getline(cin, message, '~');
-    outFile << message << "\n";
-    cout << "Message Sent Successfully!" << "\n";
-    outFile.close();
+    string content;
+    cout << "Enter your message (press Enter then ~ to finish):\n";
+    getline(cin, content, '~');
+    cin.ignore();
+
+    Message msg(senderDataId, destination, content);
+    msg.Send();
+    cout << "Message sent successfully!\n";
 }
+
 void student::readReadMessagesFile(){
-    string fileName = "../Messages/" + to_string(id) + "Read.txt";
-    ifstream inFile(fileName);
-    string line;
-    while (getline(inFile, line)) {
-        cout << line << "\n";
+    int myId = getDataId(loginName);
+    DatabaseHandler::LoadMessages();
+
+    ifstream inFile("database/messages.csv");
+    if (!inFile) { cout << "No messages.\n"; return; }
+
+    Message m;
+    bool found = false;
+    while (inFile >> m) {
+        if (m.getReciever() == myId && !m.getUnread()) {
+            cout << m;
+            found = true;
+        }
     }
-    inFile.close();
+    if (!found) cout << "No previously read messages.\n";
 }
 void Student(){
     cout << "Student data" << nl;

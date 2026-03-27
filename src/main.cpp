@@ -52,11 +52,13 @@ int main(){
             }
             else if(r == "provost"){
                 Provost p;
+                p.setLoginName(a);
                 cout << "Calling provost UI\n";
                 p.run();
             }
             else if(r=="manager"){
                 Provost p;
+                p.setLoginName(a);
                 cout << "Calling manager UI\n";
                 p.run();
 

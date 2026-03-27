@@ -12,9 +12,11 @@ class Provost : public Admin{
 private:
     static int provostCount;
     int appointmentYear;
+    string loginName;
 public:
     Provost();
     Provost(int id, const string &name, int appointmentYear);
+    void setLoginName(const string& n);
 
     int getAppointmentYear() const;
     void assignShift(AssistantToProvost &assistant, const string &shift);

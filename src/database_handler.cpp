@@ -118,7 +118,7 @@ void DatabaseHandler::DeleteComplaint(int id)          // ← new function
 
 void DatabaseHandler::SaveNotice(const NoticeBoard &notice)
 {
-    ofstream outFile("notices.txt", ios::app);
+    ofstream outFile("database/notices.csv", ios::app);
     if (outFile.is_open())
     {
         outFile << notice.GetNoticeID() << ","
@@ -130,14 +130,14 @@ void DatabaseHandler::SaveNotice(const NoticeBoard &notice)
     }
     else
     {
-        cerr << "Error: Could not open notices.txt for writing." << endl;
+        cerr << "Error: Could not open notices.csv for writing." << endl;
     }
 }
 
 vector<NoticeBoard> DatabaseHandler::LoadNotices()
 {
     vector<NoticeBoard> notices;
-    ifstream inFile("notices.txt");
+    ifstream inFile("database/notices.csv");
     string line;
 
     if (inFile.is_open())
@@ -164,7 +164,7 @@ vector<NoticeBoard> DatabaseHandler::LoadNotices()
 
 void DatabaseHandler::UpdateNotice(int id, const string& newTitle, const string& newText) {
     vector<NoticeBoard> notices = LoadNotices();
-    ofstream outFile("notices.txt");
+    ofstream outFile("database/notices.csv");
     if (outFile.is_open()) {
         for (auto& n : notices) {
             if (n.GetNoticeID() == id) {
@@ -195,9 +195,9 @@ string escapeCSV(const string &s)
 
 void DatabaseHandler::SaveMessage(const Message &message)
 {
-    ofstream outFile("messages.csv", ios::app);
+    ofstream outFile("database/messages.csv", ios::app);
     if (!outFile)
-        throw runtime_error("Could not open messages.csv");
+        throw runtime_error("Could not open database/messages.csv");
 
     time_t t = chrono::system_clock::to_time_t(message.getTime());
 
@@ -214,7 +214,7 @@ void DatabaseHandler::SaveMessage(const Message &message)
 
 void DatabaseHandler::LoadMessages()
 {
-    ifstream inFile("messages.csv");
+    ifstream inFile("database/messages.csv");
     if(!inFile) return;
 
     Message m;
