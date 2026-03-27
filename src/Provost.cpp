@@ -141,12 +141,24 @@ void Provost::approvePending()
     }
 
     if (!approved.empty()) {
+        // Count existing rows to determine next serial ID
+        int next_id = 1;
+        {
+            ifstream count_f(data_file);
+            string count_line;
+            while (getline(count_f, count_line)) {
+                if (!count_line.empty()) next_id++;
+            }
+        }
         ofstream data(data_file, ios::app);
         if (!data.is_open()) {
             cout << "Failed to open data.csv!\n";
             return;
         }
-        for (const string& a : approved) data << a << "\n";
+        for (const string& a : approved) {
+            data << next_id << "," << a << "\n";
+            next_id++;
+        }
         data.close();
         cout << "\n" << approved.size() << " user(s) approved and added.\n";
     }

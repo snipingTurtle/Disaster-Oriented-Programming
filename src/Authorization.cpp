@@ -13,8 +13,9 @@ void Authorization::sign_up(string in_name, string in_email, string pass, string
 
     while(getline(f, line)) {
         stringstream ss(line);
-        string n, e, p, r;
+        string id_str, n, e, p, r;
 
+        getline(ss, id_str, ',');
         getline(ss, n, ',');
         getline(ss, e, ',');
         getline(ss, p, ',');
@@ -68,9 +69,10 @@ string Authorization::log_in(string name_or_email, string pass) {
     }
     string line;
     bool flag = 1;
-    string n, e, p, r;
+    string id_str, n, e, p, r;
     while(getline(f, line)) {
         stringstream ss(line);
+        getline(ss, id_str, ',');
         getline(ss, n, ',');
         getline(ss, e, ',');
         getline(ss, p, ',');
