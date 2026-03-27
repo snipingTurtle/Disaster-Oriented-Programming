@@ -21,4 +21,6 @@ add_executable(HMS
     src/AssistantProvost.cpp
     src/AssistantToProvost.cpp
     src/Provost.cpp
+    src/faculty.cpp
+    src/faculty_database.cpp
 )
