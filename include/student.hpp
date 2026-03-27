@@ -1,7 +1,13 @@
 #ifndef STUDENT_H
 #define STUDENT_H
+
 #include <string>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <limits>
 #include "person.hpp"
+
 using namespace std;
 class student : public Person{
     private:
@@ -11,6 +17,7 @@ class student : public Person{
         string password;
         string email;
         int unreadMessages;
+        string loginName;
     public:
         student(){
             unreadMessages = 0;
@@ -46,7 +53,8 @@ class student : public Person{
         void writeMessage();
         void readReadMessagesFile();
         void run();
-        //bool checkFirstTimeLogin();
-        //void firstTimeLogin();
+        void setLoginName(const string& n);
+        bool checkFirstTimeLogin();
+        void firstTimeLogin();
 };
 #endif
