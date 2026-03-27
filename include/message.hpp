@@ -11,7 +11,7 @@ class Message
 {
 private:
     static int idGen;
-    const int message_id;
+    int message_id;
     int sender_id;
     int reciever_id;
     string content;

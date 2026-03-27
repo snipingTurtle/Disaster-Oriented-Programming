@@ -188,7 +188,7 @@ void DatabaseHandler::LoadMessages()
 
     while (inFile >> m)
     {
-        messageDB[m.getMessageID()] = m;
+        // messageDB[m.getMessageID()] = m;
     }
 }
 

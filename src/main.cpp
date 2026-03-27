@@ -1,5 +1,5 @@
 #include <iostream>
-#include "all.hpp" // This header likely links to the newly separated Authorization class
+#include "all.hpp"
 
 using namespace std;
 
@@ -18,6 +18,7 @@ int main(){
             continue;
         }
         else if(choice[0] == '3'){
+            cout << "Exiting Hall Management System... DONE!" << endl;
             break;
         }
         else if(choice[0] == '1'){

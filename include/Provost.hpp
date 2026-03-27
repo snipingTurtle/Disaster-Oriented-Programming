@@ -20,6 +20,8 @@ public:
     void assignShift(AssistantToProvost &assistant, const string &shift);
 
     void updateComplaintStatus(Complaint &complaint,const string &status) override;
+    void updateNotice(int id, const string& title, const string& text) override;
+
     void viewResidents() const override;
     string role() const override;
     void run();

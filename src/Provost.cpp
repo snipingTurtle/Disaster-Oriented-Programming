@@ -52,6 +52,11 @@ string Provost::role() const
     return "Provost";
 }
 
+void Provost::updateNotice(int id, const string& title, const string& text) {
+    cout << "Notice has been updated\n";                                                       
+}
+
+
 Provost::~Provost()
 {
     provostCount--;
