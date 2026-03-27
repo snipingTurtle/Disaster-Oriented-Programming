@@ -27,12 +27,15 @@ int main(){
             cout << "Enter your password: "; cin >> b;
             
             string r = auth.log_in(a,b);
+
             if(r == "null") {
                 cout << "Credentials mismatch\n";
                 continue;
             }
             else if(r == "student"){
-                cout << "Calling student UI\n";
+                student s;
+                cout << "Calling student UI\n\n";
+                s.run();
             }
             else if(r == "faculty"){
                 cout << "Calling faculty UI\n";

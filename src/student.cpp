@@ -115,3 +115,23 @@ void Student(){
     //student s1(129, "Zahin", 159154, "O+", 39629, 123, "South Hall");
     //s1.displayDetails();
 }
+
+void student::run(){
+    while(1){
+        cout << "\nStudent Panel\n";
+        cout << "1: View Notices\n";
+        cout << "2: Give Student Announcement\n";
+        cout << "3: Send Message\n";
+        cout << "4: Read Messages\n";
+        cout << "5: Set Complaint\n";
+        cout << "6: Exit\n";
+
+        int c;
+        cin >> c;
+
+        if(c == 3) {
+            cout << "Logging out from Student Level\n";
+            break;
+        }
+    }
+}

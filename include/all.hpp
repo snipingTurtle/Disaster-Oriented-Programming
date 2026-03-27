@@ -17,5 +17,6 @@
 #include "Provost.hpp"
 #include "user.hpp"
 #include "message.hpp"
+#include "student.hpp"
 
 #endif

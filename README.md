@@ -16,10 +16,9 @@ A C++ based Hall Management System designed for efficient handling of student co
 ## Compilation
 Use the provided `CMakeLists.txt` to build the project:
 ```bash
-mkdir build && cd build
-cmake ..
-make
-./HMS
+cmake -B build
+cmake --build build
+./build/HMS
 ```
 
 ## Authors

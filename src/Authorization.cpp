@@ -1,8 +1,12 @@
 #include "Authorization.hpp"
 
 void Authorization::sign_up(string in_name, string in_email, string pass, string role) {
-    string file_name = "../database/data.csv";
+    string file_name = "database/data.csv";
     ifstream f(file_name);
+    if (!f.is_open()) {
+            cout << "Failed to open Data.csv!" << endl;
+            return;
+        }
 
     string line;
     int flag = 0;
@@ -27,8 +31,13 @@ void Authorization::sign_up(string in_name, string in_email, string pass, string
     }
     else {
         cout << "Awaiting Admin approval!" << endl;
-        string pending = "../database/pending.csv";
+        string pending = "database/pending.csv";
+        
         ofstream f(pending, ios::app);
+        if (!f.is_open()) {
+            cout << "Failed to open pending.csv!" << endl;
+            return;
+        }
         for(int i = 0; i < role.size(); i++) {
             role[i] = tolower(role[i]);
         }
@@ -43,10 +52,20 @@ void Authorization::sign_up(string in_name, string in_email, string pass, string
     }
 }
 
-string Authorization::log_in(string name_or_email, string pass) {
-    string file_name = "../database/data.csv";
-    ifstream f(file_name);
+string trim(const string &s) {
+    size_t start = s.find_first_not_of(" \r\n\t");
+    size_t end = s.find_last_not_of(" \r\n\t");
+    if (start == string::npos) return "";
+    return s.substr(start, end - start + 1);
+}
 
+string Authorization::log_in(string name_or_email, string pass) {
+    string file_name = "database/data.csv";
+    ifstream f(file_name);
+    if (!f.is_open()) {
+        cout << "Failed to open data.csv!" << endl;
+        return "null";
+    }
     string line;
     bool flag = 1;
     string n, e, p, r;
@@ -56,7 +75,7 @@ string Authorization::log_in(string name_or_email, string pass) {
         getline(ss, e, ',');
         getline(ss, p, ',');
         getline(ss, r);
-
+        r = trim(r);
         if(n == name_or_email || e == name_or_email) {
             if(p == pass) {
                 flag = 0;
