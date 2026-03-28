@@ -176,7 +176,7 @@ void student::writeMessage(){
     cin >> destination;
     cin.ignore();
     string content;
-    cout << "Enter your message (press ~ to finish):\n";
+    cout << "Enter your message (press ~ then Enter to finish):\n";
     getline(cin, content, '~');
     cin.ignore();
 
