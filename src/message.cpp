@@ -41,7 +41,12 @@ void Message::setContent(const string &s)
     {
         throw runtime_error("Size of the Message cannot exceed 1000 characters including space.");
     }
-    content = s;
+
+    content = "";
+    for(auto &x:s)
+    {
+        if(x != '\n') content.push_back(x);
+    }
 }
 
 int Message::getSender() const
@@ -159,35 +164,43 @@ string readCSVField(stringstream &ss)
 istream& operator >> (istream& in, Message& message)
 {
     string line;
-    if (!getline(in, line))
-        return in; // EOF
+    while (getline(in, line))
+    {
+        if (line.empty())
+            continue;
 
-    stringstream ss(line);
+        stringstream ss(line);
+        string id, sender, receiver, time, unread;
 
-    string id, sender, receiver, time, unread;
+        if (!getline(ss, id, ',') || !getline(ss, sender, ',') || !getline(ss, receiver, ','))
+            continue;
 
-    getline(ss, id, ',');
-    getline(ss, sender, ',');
-    getline(ss, receiver, ',');
+        string content = readCSVField(ss);
 
-    string content = readCSVField(ss);
+        if (!getline(ss, time, ',') || !getline(ss, unread))
+            continue;
 
-    getline(ss, time, ',');
-    getline(ss, unread);
+        try
+        {
+            int msgID = stoi(id);
+            int s = stoi(sender);
+            int r = stoi(receiver);
+            time_t t = stoll(time);
 
-    int msgID = stoi(id);
-    int s = stoi(sender);
-    int r = stoi(receiver);
-    time_t t = stoll(time);
+            chrono::system_clock::time_point tp = chrono::system_clock::from_time_t(t);
+            bool status = (unread == "1" || unread == "true");
 
-    chrono::system_clock::time_point tp =
-        chrono::system_clock::from_time_t(t);
+            message = Message(msgID, s, r, content, tp, status);
+            return in;
+        }
+        catch (...)
+        {
+            // Ignore malformed rows and continue reading the next line.
+            continue;
+        }
+    }
 
-    bool status = (unread == "1" || unread == "true");
-
-    message = Message(msgID, s, r, content, tp, status);
-
-    return in;
+    return in; // EOF or no valid row left
 }
 
 Message::~Message() {}
