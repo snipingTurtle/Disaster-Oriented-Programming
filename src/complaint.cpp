@@ -4,10 +4,16 @@
 
 using namespace std;
 
-Complaint::Complaint() : complaintID(0), complaintText(""), studentID(0), date(""), status("Pending") {}
+int Complaint::nextID = 0;
+
+Complaint::Complaint() : complaintID(nextID++), complaintText(""), studentID(0), date(""), status("Pending") {}
 
 Complaint::Complaint(int id, const string& text, int sID, const string& dateFiled) 
-    : complaintID(id), complaintText(text), studentID(sID), date(dateFiled), status("Pending") {}
+    : complaintID(id), complaintText(text), studentID(sID), date(dateFiled), status("Pending") {
+    if (id >= nextID) {
+        nextID = id + 1;
+    }
+}
 
 int Complaint::GetComplaintID() const {
     return complaintID;

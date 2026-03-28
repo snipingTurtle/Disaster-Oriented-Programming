@@ -7,6 +7,7 @@ using namespace std;
 
 class Complaint {
 private:
+    static int nextID;
     int complaintID;
     string complaintText;
     int studentID;

@@ -19,7 +19,7 @@ public:
     void updateComplaintStatus(Complaint& complaint, const string& status) override;
 
     void viewResidents() const override;
-    virtual string role() const = 0;
+    string role() const override = 0;
 
     virtual ~AssistantProvost();
 };

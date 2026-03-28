@@ -7,6 +7,7 @@ using namespace std;
 
 class NoticeBoard {
 private:
+    static int nextID;
     int noticeID;
     string title;
     string announcement;

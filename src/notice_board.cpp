@@ -4,10 +4,16 @@
 
 using namespace std;
 
-NoticeBoard::NoticeBoard() : noticeID(0), title(""), announcement(""), author(""), timestamp("") {}
+int NoticeBoard::nextID = 0;
+
+NoticeBoard::NoticeBoard() : noticeID(nextID++), title(""), announcement(""), author(""), timestamp("") {}
 
 NoticeBoard::NoticeBoard(int id, const string& t, const string& a, const string& auth, const string& ts)
-    : noticeID(id), title(t), announcement(a), author(auth), timestamp(ts) {}
+    : noticeID(id), title(t), announcement(a), author(auth), timestamp(ts) {
+    if (id >= nextID) {
+        nextID = id + 1;
+    }
+}
 
 int NoticeBoard::GetNoticeID() const { return noticeID; }
 string NoticeBoard::GetTitle() const { return title; }
